@@ -1,14 +1,14 @@
 # ASL
 
-[Description]
+<!-- [Description] -->
 
 ## Created By:
 
-**Name**: [Full Name]
+**Name**: Aimee L Ramirez           
 
-**Email**: [Email]
+**Email**: alramirez1@student.fullsail.edu
 
-**Slack Username**: [Github Username]
+**Slack Username**: aimeelramirez
 
 ## Setting up the app
 
