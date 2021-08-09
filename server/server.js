@@ -3,17 +3,15 @@
 "use strict"
 
 const https = require('https');
-// const fs = require('fs')
-const options = require('./config')
+const options = require('./api/config')
 const express = require("express");
-// let ejs = require('ejs');
-const path = require('path');
-const router = new express.Router();
-const api = require('./apiConfig')
+/** Future approaches on routing on views
+ * const path = require('path');
+ * const router = new express.Router();*/
+/** Future approaches on API getting on Lyrics Trivia on promises
+ * const api = require('./api/apiConfig')*/
 
-
-
-
+//running app
 const app = express();
 app.use(express.static(__dirname + '/public'));
 
@@ -27,6 +25,6 @@ app.use(express.json())
 console.log(`server is listening at post ${port}.`);
 //ssl
 https
-    .createServer(options, app, api, (req, res) => {
+    .createServer(options, app, (req, res) => {
         res.send(`server is listening at post ${port}.`)
     }).listen(port);
