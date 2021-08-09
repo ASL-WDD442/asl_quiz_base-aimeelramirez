@@ -2,12 +2,20 @@
 
 :root {
   --default-font-family: Helvetica, sans-serif;
-  --secondary-font-family: 'Oswald', sans-serif;
+  --secondary-font-family: "Oswald", sans-serif;
   --default-font: 200 18px/1.25em var(--default-font-family);
 }
 
 html {
   font: var(--default-font);
+}
+
+header > .header__container,
+h1.heading,
+h2:not(.brand-title),
+.button {
+  text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000,
+    1px 1px 0 #000;
 }
 
 .heading {
@@ -34,6 +42,7 @@ html {
   padding: 4px 5px;
   text-decoration: none;
   text-transform: uppercase;
+  font-weight: 400;
   color: var(--active-color);
   border: none;
   border-bottom: 1px solid var(--active-color);
@@ -62,6 +71,7 @@ html {
   padding: 10px 40px;
   text-decoration: none;
   text-transform: uppercase;
+  font-weight: 400;
   color: var(--light-text-color);
   border: none;
   outline: none;

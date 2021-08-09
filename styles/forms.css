@@ -11,7 +11,9 @@
   margin: 0 0 1rem 0;
   cursor: pointer;
 }
-
+span {
+  color: #000;
+}
 .form__label span {
   display: block;
   margin-bottom: 10px;
@@ -63,7 +65,7 @@
   width: 16px;
   height: 16px;
   border: 1px solid var(--active-color);
-  content: '';
+  content: "";
   border-radius: 50%;
   visibility: visible;
 }
@@ -76,7 +78,7 @@
   width: 8px;
   height: 8px;
   background-color: var(--active-color);
-  content: '';
+  content: "";
   border-radius: 50%;
   visibility: visible;
 }
@@ -85,4 +87,5 @@
   text-align: center;
   color: var(--error-color);
   text-transform: uppercase;
+  font-weight: 400;
 }

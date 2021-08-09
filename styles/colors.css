@@ -1,13 +1,29 @@
 :root {
-  --active-color: #2ab7ca;
-  --primary-color: #fe8a71;
-  --secondary-color: #fed766;
+  --active-color: #35a7ffff;
+  --primary-color: #6bf178ff;
+  --secondary-color: #ffe74cff;
   --text-color: #333;
   --light-text-color: #fdfdfd;
   --background-color: #fff;
   --border-color: #e6e6ea;
   --secondary-background-color: #f4f4f8;
-  --error-color: #9c3848;
+  --error-color: #ff5964ff;
+  /* Aimee L Ramirez on Colors to change */
+  /* --minion-yellow: #ffe74cff;
+  --fiery-rose: #ff5964ff;
+  --white: #ffffffff;
+  --screamin-green: #6bf178ff;
+  --blue-jeans: #35a7ffff; 
+  --ming: #006d77ff;
+--middle-blue-green: #83c5beff;
+--alice-blue: #edf6f9ff;
+--unbleached-silk: #ffddd2ff;
+--dark-salmon: #e29578ff;
+  
+  */
+}
+.color__block {
+  z-index: 0;
 }
 
 .active {
