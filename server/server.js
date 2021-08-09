@@ -26,5 +26,6 @@ console.log(`server is listening at post ${port}.`);
 //ssl
 https
     .createServer(options, app, (req, res) => {
-        res.send(`server is listening at post ${port}.`)
+        res.writeHead(200);
+        res.end("hello world\n");
     }).listen(port);
