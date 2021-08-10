@@ -1,0 +1,25 @@
+{
+  "name": "asl_quiz_base-aimeelramirez",
+  "description": "ASL trivia",
+  "version": "1.0.0",
+  "main": "null",
+  "devDependencies": {
+    "eslint": "^7.32.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-plugin-import": "^2.24.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ASL-WDD442/asl_quiz_base-aimeelramirez.git"
+  },
+  "author": "aimee l ramirez",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ASL-WDD442/asl_quiz_base-aimeelramirez/issues"
+  },
+  "homepage": "https://github.com/ASL-WDD442/asl_quiz_base-aimeelramirez#readme"
+}
