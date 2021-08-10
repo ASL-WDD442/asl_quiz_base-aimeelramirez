@@ -1,31 +1,16 @@
-
-
-"use strict"
-
 const https = require('https');
-const options = require('./api/config')
-const express = require("express");
-/** Future approaches on routing on views
- * const path = require('path');
- * const router = new express.Router();*/
-/** Future approaches on API getting on Lyrics Trivia on promises
- * const api = require('./api/apiConfig')*/
-
-//running app
+const express = require('express');
+const path = require('path');
+const options = require('./api/config');
+// running app
 const app = express();
-app.use(express.static(__dirname + '/public'));
-
-//set port
-const port = 8080
-app.set("port", port);
-
+app.use(express.static(path.join(__dirname, '/public')));
+// set port
+const port = 8080;
+app.set('port', port);
 app.use(express.urlencoded({ extended: true }));
-app.use(express.json())
-
+app.use(express.json());
 console.log(`server is listening at post ${port}.`);
-//ssl
-https
-    .createServer(options, app, (req, res) => {
-        res.writeHead(200);
-        res.end("hello world\n");
-    }).listen(port);
+// ssl
+https.createServer(options, app, () => {
+}).listen(port);
