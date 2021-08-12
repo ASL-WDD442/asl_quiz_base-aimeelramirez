@@ -1,4 +1,4 @@
-const Users = require('./../models/index')
+const controller = require('./../app/controller')
 
 
 const userRoutes = (app) => {
@@ -16,10 +16,6 @@ const userRoutes = (app) => {
         //example to pass auth in
     })
 
-    app.get("/api/user", (req, res) => {
-        console.log('This is user endpoint.')
-        res.json({ user: 'user' })
-
-    })
+    app.get("/api/user", controller.getAll)
 }
 module.exports = userRoutes

@@ -7,7 +7,8 @@
 // access_token
 // type
 //if params to be passing  in options
-module.exports = [
+
+const User = [
     {
         id: 0,
         username: "aimee",
@@ -16,3 +17,4 @@ module.exports = [
         type: ''
     }
 ]
+module.exports = User
