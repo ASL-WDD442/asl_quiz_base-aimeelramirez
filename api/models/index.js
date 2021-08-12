@@ -3,7 +3,7 @@ const questions = require("./questions")
 const quizzes = require("./quizzes")
 const users = require("./users")
 
-const uuid = require('uuid')
+const { v4: uuidv4 } = require('uuid');
 
 class Model {
     constructor(data) {
@@ -11,13 +11,20 @@ class Model {
     }
 
     create(item) {
-        const id = uuid()
-        this.values.push({ id, ...item })
-        return id
+        const id = uuidv4();
+        this.values.push({
+            id,
+            ...item,
+            access_token: '',
+            type: ''
+        })
+        return this.values
     }
     getAll() {
-        console.log('getting.')
         return this.values
+    }
+    findById(id) {
+        return this.values.find(item => item.id === id)
     }
 
 }

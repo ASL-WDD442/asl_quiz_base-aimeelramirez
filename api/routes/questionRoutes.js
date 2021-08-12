@@ -8,7 +8,7 @@ const questionRoutes = (app) => {
         res.header("Access-Control-Allow-Origin", "*")
         res.header(
             "Access-Control-Allow-Headers",
-            "x-access-token, Origin, X-Requested-With, Content-Type, Accept",
+            "authorization, Origin, X-Requested-With, Content-Type, Accept",
         )
         console.log(`Request from: ${req.originalUrl}`)
         console.log(`Request body: ${req}`)
@@ -16,9 +16,26 @@ const questionRoutes = (app) => {
         next()
         //example to pass auth in
     })
-    app.get("/api/question", (req, res) => {
-        console.log('This is question endpoint.')
-        res.json({ question: 'question' })
+    app
+        .get("/questions", (req, res) => {
+            let id = req.query.quizId;
+            res.json({ id: id })
+            //choices?questionId= 
+        })
+        .post('/questions', (req, res) => {
+            res.json({ questions: 'post endpoint' });
+        })
+
+    //on id
+    app.get('/questions/:id', (req, res) => {
+        res.json({ questions: 'get endpoint id' });
     })
+        .put('/questions/:id', (req, res) => {
+            res.json({ questions: 'put endpoint id' });
+
+        })
+        .delete('/questions/:id', (req, res) => {
+            res.json({ questions: 'delete endpoint id' });
+        })
 }
 module.exports = questionRoutes

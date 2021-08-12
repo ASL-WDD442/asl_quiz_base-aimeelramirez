@@ -1,4 +1,3 @@
-const model = require('./../models/choices')
 
 const choiceRoutes = (app) => {
     app.route("/").get((req, res, next) => {
@@ -6,17 +5,33 @@ const choiceRoutes = (app) => {
         res.header("Access-Control-Allow-Origin", "*")
         res.header(
             "Access-Control-Allow-Headers",
-            "x-access-token, Origin, X-Requested-With, Content-Type, Accept",
+            "authorization, Origin, X-Requested-With, Content-Type, Accept",
         )
         console.log(`Request from: ${req.originalUrl}`)
         console.log(`Request body: ${req}`)
 
         next()
     })
-    app.get("/api/choice", (req, res) => {
-        console.log('This is choice endpoint.')
-        res.json({ choice: 'choice' })
+    app
+        .get("/choices", (req, res) => {
+            let id = req.query.questionId;
+            res.json({ id: id })
+            //choices?questionId= 
+        })
+        .post('/choices', (req, res) => {
+            res.json({ choices: 'post endpoint' });
+        })
+    //on id
+    app
+        .get('/choices/:id', (req, res) => {
+            res.json({ choices: 'get endpoint id' });
+        })
+        .put('/choices/:id', (req, res) => {
+            res.json({ choices: 'put endpoint id' });
 
-    })
+        })
+        .delete('/choices/:id', (req, res) => {
+            res.json({ choices: 'delete endpoint id' });
+        })
 }
 module.exports = choiceRoutes
