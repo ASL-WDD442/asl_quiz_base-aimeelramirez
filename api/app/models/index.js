@@ -1,8 +1,9 @@
-const { v4: uuidv4 } = require('uuid')
+const { v4: uuidv4, v1: uuidv1 } = require('uuid')
 const quizzes = require('./quizzes')
 const questions = require('./questions')
 const choices = require('./choices')
 const users = require('./users');
+const token = uuidv1();
 
 class Model {
     constructor(data) {
@@ -10,10 +11,12 @@ class Model {
     }
 
     create(item) {
-        const id = uuidv4()
+        const id = uuidv4();
         this.values.push({
-            id,
-            ...item
+            id: id,
+            ...item,
+            access_token: token,
+
         })
         return id
     }
@@ -39,6 +42,19 @@ class Model {
         return this.values.filter(item => item.id === id)
     }
 
+    getLogin(user) {
+        return this.values.filter(item => item.username === user.username && item.password === user.password)
+    }
+    findByToken(target) {
+        const newToken = uuidv1();
+        return this.values.filter(item => {
+            if (item.username === target.username) {
+                //Change temp code for access_code/access_token
+                item.access_token = newToken
+                return item
+            }
+        })
+    }
     findByQuiz(id) {
         return this.values.filter(item => item.quizId === id)
     }
@@ -52,7 +68,6 @@ class Model {
     }
 
     findAll() {
-        // console.log(this.values)
         return this.values
     }
 }

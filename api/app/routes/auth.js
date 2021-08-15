@@ -3,7 +3,9 @@ const authsController = require('../controllers/auths')
 
 router.get('/', authsController.getAll)
 router.get('/:id', authsController.getOneById)
-router.post('/', authsController.createUser)
+router.post('/signup', authsController.createUser)
+router.post('/login', authsController.login)
+router.post('/exchange', authsController.createToken)
 router.put('/:id', authsController.updateUser)
 router.delete('/:id', authsController.deleteUser)
 

@@ -1,8 +1,8 @@
 
 const { Users } = require('../models')
 
-exports.getAll = (res) => {
-    const users = Users.findAll();
+exports.getAll = (req, res) => {
+    let users = Users.findAll();
     res.json(users)
 
 }
@@ -16,8 +16,25 @@ exports.getOneById = ({ params: { id } }, res) => {
 
 }
 
-exports.createUser = ({ body: body }, res) => {
-    const id = Users.create({ body });
+exports.login = ({ body: { username, password } }, res) => {
+    const user = Users.getLogin({ username, password })
+    if (!user.length) {
+        res.sendStatus(404); return;
+    }
+    res.json(user);
+
+}
+exports.createToken = ({ body: { username, password, access_token, type } }, res) => {
+    const user = Users.findByToken({ username, password, access_token, type })
+    if (!user.length) {
+        res.sendStatus(404); return;
+    }
+    res.json(user);
+
+}
+
+exports.createUser = ({ body: { username, password, access_token, type } }, res) => {
+    const id = Users.create({ username, password, access_token, type });
     res.json(id)
 }
 
