@@ -2,7 +2,7 @@ const { v4: uuidv4, v1: uuidv1 } = require('uuid')
 const quizzes = require('./quizzes')
 const questions = require('./questions')
 const choices = require('./choices')
-const users = require('./users');
+const users = require('./auths');
 const token = uuidv1();
 
 class Model {
@@ -16,6 +16,7 @@ class Model {
             id: id,
             ...item,
             access_token: token,
+            type: ""
 
         })
         return id
