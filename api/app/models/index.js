@@ -14,6 +14,15 @@ class Model {
         const id = uuidv4();
         this.values.push({
             id: id,
+            ...item
+
+        })
+        return id
+    }
+    createAUser(item) {
+        const id = uuidv4();
+        this.values.push({
+            id: id,
             ...item,
             access_token: token,
             type: ""

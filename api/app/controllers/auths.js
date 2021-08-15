@@ -34,7 +34,7 @@ exports.createToken = ({ body: { username, password, access_token, type } }, res
 }
 
 exports.createUser = ({ body: { username, password, access_token, type } }, res) => {
-    const id = Users.create({ username, password, access_token, type });
+    const id = Users.createAUser({ username, password, access_token, type });
     res.json(id)
 }
 
