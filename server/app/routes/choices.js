@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const ChoiceController = require('../controllers/choices');
-// const ValidationController = require('../controllers/validations');
+const ValidationController = require('../controllers/validations');
 
 router.get('/:id', ChoiceController.renderChoiceDetails);
 

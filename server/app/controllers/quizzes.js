@@ -13,7 +13,10 @@ exports.renderQuiz = async (req, res) => {
 exports.renderQuizDetail = async (req, res) => {
   const { id } = req.params;
   console.log(id)
-  const { name, type } = await req.API.get(`/quizzes/${id}`);
+  const data = await req.API.get(`/quizzes/${id}`);
+  console.log(data.name)
+  let name = data.name
+  let type = data.type
   const questions = await req.API.get(`/questions?quizId=${id}`);
   res.render('quiz/index', { name, type, questions });
 };
@@ -34,3 +37,20 @@ exports.goBackOnError = (errors, req, res, next) => {
   res.redirect('back');
 };
 
+exports.saveQuiz = async (req, res) => {
+  const { name, type } = req.body;
+  const { id } = req.params;
+  if (id) {
+    await req.API.put(`/quizzes/${id}`, { name, type });
+  } else {
+    await req.API.post('/quizzes', { name, type });
+  }
+  res.redirect('/admin/quizzes/list');
+};
+
+
+exports.deleteQuiz = async (req, res) => {
+  const { id } = req.params;
+  await req.API.delete(`/quizzes/${id}`);
+  res.redirect('/admin/quizzes/list');
+};

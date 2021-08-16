@@ -8,8 +8,9 @@ const app = require('./app/index')
 const port = 3000;
 app.set('port', port);
 console.log(`server is listening at post ${port}.`);
+const log = require('debug')('server:logging');
 
-// ssl
+// // ssl
 https
     .createServer(options, app, () => {
         log(`API listening on port ${port}!`)

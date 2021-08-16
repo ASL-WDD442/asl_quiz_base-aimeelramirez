@@ -13,6 +13,14 @@ const authRoutes = require('./routes/auths');
 
 // const authDecisionsRoutes = require('./routes/authDecisions');
 app.use(express.static('public'));
+const publicPath = path.join(__dirname, 'public');
+
+app.use(express.static(publicPath));
+
+app.use(express.static(path.join(__dirname, 'public/styles')));
+
+app.use(express.static('public/index.css'));
+
 app.use(express.urlencoded({ extended: true }));
 //apply api
 app.use(API);
