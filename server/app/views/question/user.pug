@@ -1,0 +1,11 @@
+extends ../_layout
+include ../_includes/link_mixin
+block content
+    h1.heading My Questions
+    ul.list
+        for question in questions
+            li.list__item
+                span.list__item__title= question.title 
+                br
+                +link('/admin/questions/'+question.id, 'View', 'fa-eye') 
+            

@@ -1,0 +1,10 @@
+extends ./../_layout
+include ./../_includes/link_mixin
+block content
+      ul.list
+        for value in auth
+         span= value.username
+           span
+            +link('/quiz/list', 'Return to Quiz', 'fa-eye', 'link')
+            +link('/admin/auth/edit/'+value.id, 'Edit', 'fa-edit', 'link')
+        
