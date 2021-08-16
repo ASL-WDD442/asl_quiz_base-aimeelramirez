@@ -4,7 +4,7 @@ module.exports = [
         id: 'fd541aa9-bdbe-4328-b843-acb5a07f47b7',
         name: 'Public Room',
         type: 'public',
-        userId: 'ef93ed60-b92e-4f7d-a294-6ec8ed559d25'
+        userId: '990ce598-e56a-4b97-bae4-9399391af4ac'
     },
     {
         id: '39b5acf7-254e-46e3-b6a8-5f8edd02d81f',

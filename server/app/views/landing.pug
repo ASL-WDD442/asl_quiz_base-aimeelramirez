@@ -1,12 +1,15 @@
 extends _layout
 include _includes/link_mixin
+
 block content
     h1.heading Welcome to Lyrical Trivia!
     br
-    +link('/quiz/list', 'View Quizzes', 'fa-eye')
+    +link('/quiz/list', 'View Rooms', 'fa-eye')
+     br
+    +link('/admin/quizzes/list', 'View List of All Quizzes', '', 'button primary')
     br
     +link('/admin/choices/list', 'View List of Choices', '', 'button primary')
     br
     +link('/admin/questions/list', 'View List of Questions', '', 'button primary')
     br
-    +link('/auth/list', 'View List of Users', '', 'button primary')
+    +link('/admin/auth/list', 'View List of Users', '', 'button primary')

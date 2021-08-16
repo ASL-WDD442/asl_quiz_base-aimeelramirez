@@ -5,20 +5,27 @@ exports.renderLanding = async (req, res) => {
 
 exports.renderQuiz = async (req, res) => {
   const { id } = req.params;
-  let quiz = await req.API.get(`/quizzes/${id}`);
-  console.log(await req.API.get(`/quizzes/${id}`));
-  res.render('quiz/index', { quiz });
+  const quiz = await req.API.get(`/quizzes/${id}`);
+  // console.log(await req.API.get(`/quizzes/${id}`));
+  res.render('quiz/detail', { quiz });
 };
 
 exports.renderQuizDetail = async (req, res) => {
-  const { id } = req.params;
-  console.log(id)
-  const data = await req.API.get(`/quizzes/${id}`);
-  console.log(data.name)
-  let name = data.name
-  let type = data.type
-  const questions = await req.API.get(`/questions?quizId=${id}`);
-  res.render('quiz/index', { name, type, questions });
+  let { id } = req.params;
+  if (id) {
+    const data = await req.API.get(`/quizzes/${id}`);
+    let name, type, quizId;
+    data.map((item) => {
+      name = item.name;
+      type = item.type;
+      quizId = item.id;
+    })
+    console.log(name)
+    const questions = await req.API.get(`/questions?quizId=${id}`);
+    // console.log({ name, type, quizId, questions })
+    res.render('quiz/detail', { name, type, quizId, questions });
+
+  }
 };
 
 exports.renderMyQuizzes = async (req, res) => {
@@ -31,7 +38,6 @@ exports.renderMyQuizzes = async (req, res) => {
 exports.renderQuizForm = async (req, res) => {
   res.render('quiz/form', { id: '', name: '', type: 'private' });
 };
-
 
 exports.goBackOnError = (errors, req, res, next) => {
   res.redirect('back');
@@ -53,4 +59,20 @@ exports.deleteQuiz = async (req, res) => {
   const { id } = req.params;
   await req.API.delete(`/quizzes/${id}`);
   res.redirect('/admin/quizzes/list');
+};
+exports.renderQuizFormWithErrors = (errors, req, res, next) => {
+  const { name, type } = req.body;
+  res.render('quiz/form', { name, type, errors });
+};
+
+exports.renderEditForm = async (req, res) => {
+  const { id } = req.params;
+  const data = await req.API.get(`/quizzes/${id}`);
+  let name, type;
+  data.map((item) => {
+    name = item.name;
+    type = item.type;
+  })
+  console.log("render edits: ", data)
+  res.render('quiz/form', { id, name, type });
 };

@@ -1,10 +1,10 @@
 extends ../_layout
 include ../_includes/link_mixin
 block content
-    h1.heading= value ? 'Edit Choice' : 'New Choice'
+    h1.heading=id ? 'Edit Choice' : 'New Choice'
     form.form(method="POST")
         label.form__label Choice Value
-            input.form__input(type="text", name="value", value=value)
+            input.form__input(type="text", name="value", value= value, placeholder=value)
         label.form__label
             span.form__labelInline Choice Type
             label.form__labelInline

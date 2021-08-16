@@ -1,0 +1,13 @@
+extends ../_layout
+include ../_includes/link_mixin
+block content
+    h1.heading=id ? 'Edit Profile Name' : 'New Profile Name'
+    span=id
+
+    form.form(method="POST")
+        label.form__label User's Profile
+            input.form__input(type="text", name="username", value=username)
+        button.button.active(type="submit")= id ? 'Save Username' : 'Create Username'
+        if errors
+            for error in errors
+                small.flash=error.msg

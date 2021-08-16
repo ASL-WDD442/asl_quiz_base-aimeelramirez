@@ -13,6 +13,7 @@
 }
 span {
   color: #000;
+  padding: 0.5rem;
 }
 .form__label span {
   display: block;

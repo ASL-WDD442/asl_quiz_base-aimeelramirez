@@ -2,15 +2,14 @@ extends ../_layout
 include ../_includes/link_mixin
 block content
 
-    if question
       ul.list
         for value in question
          span= value.title
            span
-            +link('/quizzes/'+value.quizId, 'Return to Quiz', 'fa-eye', 'link')
-            +link('/questions/edit/'+value.id, 'Edit', 'fa-edit', 'link')
-            +link('/questions/delete/'+value.id, 'Delete', 'fa-trash', 'link linkSecondary')
-        
+            +link('/quiz/'+value.quizId, 'Return to Quiz', 'fa-eye', 'link')
+            +link('/admin/questions/edit/'+value.id, 'Edit', 'fa-edit', 'link')
+            +link('/admin/questions/delete/'+value.id, 'Delete', 'fa-trash', 'link linkSecondary')
+
         div
             h2.headingSecondary Choices
             ul.list
@@ -19,6 +18,5 @@ block content
                         span.list__item__title= choice.value
                         div.list__item__footer
                             +link('/choices/'+choice.id, 'View', 'fa-eye', 'link')
-                            +link('/choices/edit/'+choice.id, 'Edit', 'fa-edit', 'link')
-                            +link('/choices/delete/'+choice.id, 'Delete', 'fa-trash', 'link linkSecondary')
-            +link('/choices/new/?questionId='+question.id, 'Add a new choice', '', 'button primary')
+                            +link('/admin/choices/edit/'+choice.id, 'Edit', 'fa-edit', 'link')
+                            +link('/admin/choices/delete/'+choice.id, 'Delete', 'fa-trash', 'link linkSecondary')

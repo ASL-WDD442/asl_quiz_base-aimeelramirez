@@ -1,0 +1,9 @@
+extends ./../_layout
+include ./../_includes/link_mixin
+block content
+    h1.heading Users List
+     ul.list
+        for value in auths
+            li.list__item
+             span.list__item__title= value.username
+             +link('/admin/auth/'+value.id, 'View', 'fa-eye', 'link')

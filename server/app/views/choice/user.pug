@@ -1,14 +1,14 @@
 extends ../_layout
 include ../_includes/link_mixin
 block content
+
     h1.heading My Choices
     ul.list
-        for choice in choices
+        for value in choices
             li.list__item
-                span.list__item__title= choice.value
-                 span.list__item__title= choice.type
-                 br
-                 +link('/admin/questions/'+choice.questionId, 'View Question Id', 'fa-eye')
-                 br
-                 +link('/admin/choices/'+choice.id, 'View Choice Id', 'fa-eye')
+                span= value.value
+                span= value.type
+
+                +link('/admin/choices/'+value.id, 'View', 'fa-eye')
     +link('/admin/quizzes/new', 'Create Your Own Quiz', '', 'button primary')
+
