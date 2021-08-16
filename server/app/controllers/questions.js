@@ -11,21 +11,19 @@ exports.renderQuestionDetails = async (req, res) => {
   const choices = await req.API.get(`/choices?questionId=${id}`);
 
   console.log({ question, choices });
-  res.render("question/detail", { question, choices });
+  res.render("question/detail", { id, question, choices });
 };
 
 
 
 exports.renderQuestionForm = async (req, res) => {
-
-  const { id } = req.query;
-  res.render("question/form", id);
+  const { id, title, quizId } = req.query;
+  res.render("question/form", { id, title, quizId });
 };
 
 exports.renderQuestionFormWithErrors = (errors, req, res, next) => {
-  const { title, type } = req.body;
-
-  res.render("question/form", { title, type, errors });
+  const { title, quizId } = req.body;
+  res.render("question/form", { title, quizId, errors });
 };
 
 exports.renderEditForm = async (req, res) => {
@@ -36,6 +34,8 @@ exports.renderEditForm = async (req, res) => {
     title = item.title;
     quizId = item.quizId;
   })
+  console.log('edit ques form', id, quizId, title)
+
   console.log("questions:", { id, title, quizId })
 
   res.render("question/form", { id, title, quizId });
@@ -53,7 +53,9 @@ exports.saveQuestion = async (req, res) => {
   } else {
     await req.API.post("/questions", question);
   }
-  res.redirect(`/admin/quizzes/${question.quizId}`);
+  // res.redirect(`/admin/quizzes/${question.quizId}`);
+  res.redirect(`/admin/questions/list`);
+
 };
 
 exports.goBackOnError = (errors, req, res, next) => {

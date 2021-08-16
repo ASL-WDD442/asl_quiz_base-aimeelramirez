@@ -7,19 +7,24 @@ exports.renderChoices = async (req, res) => {
 exports.renderChoiceDetails = async (req, res) => {
   const { id } = req.params;
   const choice = await req.API.get(`/choices/${id}`);
-  // let questionId;
-  // choice.map((item) => {
-  //   questionId = item.questionId;
-  //   console.log(questionId);
-  // })
-  res.render("choice/detail", { choice });
+  let questionId;
+  choice.map((item) => {
+    questionId = item.questionId;
+    console.log(questionId);
+  })
+  res.render("choice/detail", { choice, questionId });
 };
 exports.renderChoiceForm = async (req, res) => {
+
   const { questionId } = req.query;
+  console.log('edit form:==>', questionId)
+
   res.render("choice/form", { value: "", type: "private", questionId });
 };
 
 exports.renderChoiceFormWithErrors = (errors, req, res, next) => {
+  console.log('edit form')
+
   const { questionId } = req.query;
   const { value, correct } = req.body;
   res.render("choice/form", {

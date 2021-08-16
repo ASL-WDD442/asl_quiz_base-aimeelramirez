@@ -1,20 +1,17 @@
 extends ../_layout
 include ../_includes/link_mixin
 block content
+    h4 My Choices Item
 
-    if choice
       ul.list
         for value in choice
-         span= value.value
-         br
-          span= value.type
-
-
-           span
+          li.list__item
+            span.list__item__title= value.value
+            span.list__item__title= value.type
+            
+          div
             +link('/quiz/list', 'Return to Quiz', 'fa-eye', 'link')
             +link('/admin/choices/edit/'+ value.id, 'Edit', 'fa-edit', 'link')
             +link('/admin/choices/delete/'+ value.id,'Delete', 'fa-trash', 'link linkSecondary')
-        
-    //- if questions 
-    //-   for question in questions 
-    //-      span=questions.id
+            +link('/admin/choices/new?questionId='+value.questionId, 'Create Your Own Choice', '', 'button primary')
+            

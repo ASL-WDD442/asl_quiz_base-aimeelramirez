@@ -2,12 +2,14 @@ extends ./../_layout
 include ./../_includes/link_mixin
 
 block content
-    div.heading
+    div
        span= name
-       span= quizId
+        div.list__item__footer
+
         span
             +link('/admin/quizzes/edit/'+quizId, 'Edit', 'fa-edit', 'link')
             +link('/admin/quizzes/delete/'+quizId, 'Delete', 'fa-trash', 'link linkSecondary')
+
     div
         h2.headingSecondary Questions
         ul.list
@@ -16,5 +18,4 @@ block content
                 span.list__item__title=value.title
                 +link('/admin/questions/'+value.id, 'View', 'fa-eye', 'link')
                 +link('/admin/questions/delete/'+value.id, 'Delete', 'fa-trash', 'link linkSecondary')
-    +link('/admin/question/new/'+quizId, 'Add a new question', '', 'button primary')
-
+    +link('/admin/questions/new?quizId='+quizId, 'Create Your Own Question', '', 'button primary')
