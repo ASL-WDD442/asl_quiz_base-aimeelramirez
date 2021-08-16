@@ -1,0 +1,10 @@
+extends ../_layout
+include ../_includes/link_mixin
+block content
+    h1.heading My questions
+    ul.list
+        for question in questions
+            li.list__item
+                span.list__item__title= question.name
+                +link('/admin/question/'+question.id, 'View', 'fa-eye')
+    +link('/admin/questions/new', 'Create Your Own Quiz', '', 'button primary')

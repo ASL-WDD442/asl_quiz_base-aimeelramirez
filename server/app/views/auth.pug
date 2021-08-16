@@ -1,0 +1,9 @@
+extends _layout
+include _includes/link_mixin
+block content
+    h1.heading Users List
+    if auths
+    ul.list
+        for auth in auths
+            li.list__item
+                span.list__item__title= auth.username

@@ -1,0 +1,24 @@
+extends ../_layout
+include ../_includes/link_mixin
+block content
+
+    if questions
+      ul.list
+        for question in questions
+         span= question.title
+           span
+            +link('/quizzes/'+question.quizId, 'Return to Quiz', 'fa-eye', 'link')
+            +link('/questions/edit/'+question.id, 'Edit', 'fa-edit', 'link')
+            +link('/questions/delete/'+question.id, 'Delete', 'fa-trash', 'link linkSecondary')
+        
+        div
+            h2.headingSecondary Choices
+            ul.list
+                for choice in choices
+                    li.list__item
+                        span.list__item__title= choice.value
+                        div.list__item__footer
+                            +link('/choices/'+choice.id, 'View', 'fa-eye', 'link')
+                            +link('/choices/edit/'+choice.id, 'Edit', 'fa-edit', 'link')
+                            +link('/choices/delete/'+choice.id, 'Delete', 'fa-trash', 'link linkSecondary')
+            +link('/choices/new/?questionId='+question.id, 'Add a new choice', '', 'button primary')
