@@ -4,7 +4,7 @@ const questionsController = require('./../controllers/questions');
 
 router.get('/', quizController.renderLanding);
 router.get('/quiz', quizController.renderLanding);
-router.get('/questions', questionsController.renderQuestions);
+// router.get('/question', questionsController.renderQuestions);
 
 
 

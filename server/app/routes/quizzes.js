@@ -5,7 +5,7 @@ const ValidationController = require('../controllers/validations');
 
 router.get('/list', QuizController.renderMyQuizzes);
 router.get('/:id', QuizController.renderQuizDetail);
-router.get('/new', QuizController.renderQuizForm);
+// router.get('/new', QuizController.renderQuizForm);
 
 
 module.exports = router;

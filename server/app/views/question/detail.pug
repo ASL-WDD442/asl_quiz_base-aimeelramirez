@@ -2,14 +2,14 @@ extends ../_layout
 include ../_includes/link_mixin
 block content
 
-    if questions
+    if question
       ul.list
-        for question in questions
-         span= question.title
+        for value in question
+         span= value.title
            span
-            +link('/quizzes/'+question.quizId, 'Return to Quiz', 'fa-eye', 'link')
-            +link('/questions/edit/'+question.id, 'Edit', 'fa-edit', 'link')
-            +link('/questions/delete/'+question.id, 'Delete', 'fa-trash', 'link linkSecondary')
+            +link('/quizzes/'+value.quizId, 'Return to Quiz', 'fa-eye', 'link')
+            +link('/questions/edit/'+value.id, 'Edit', 'fa-edit', 'link')
+            +link('/questions/delete/'+value.id, 'Delete', 'fa-trash', 'link linkSecondary')
         
         div
             h2.headingSecondary Choices

@@ -1,0 +1,8 @@
+p {
+  color: blue;
+}
+
+span > a {
+  display: inline-block;
+  border: 1px solid grey;
+}

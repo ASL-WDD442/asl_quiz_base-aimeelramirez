@@ -3,6 +3,8 @@ exports.renderQuestionDetails = async (req, res) => {
 
   const question = await req.API.get(`/questions/${id}`);
   const choices = await req.API.get(`/choices?questionId=${id}`);
+
+  console.log({ question, choices })
   res.render('question/detail', { question, choices });
 };
 
@@ -10,14 +12,6 @@ exports.renderQuestions = async (req, res) => {
   const questions = await req.API.get(`/questions`);
   console.log(questions)
   res.render('question/user', { questions });
-};
-
-
-exports.renderQuestionDetails = async (req, res) => {
-  const { id } = req.params;
-  const question = await req.API.get(`/questions/${id}`);
-  const choices = await req.API.get(`/choices?questionId=${id}`);
-  res.render('question/detail', { question, choices });
 };
 
 exports.renderQuestionForm = async (req, res) => {

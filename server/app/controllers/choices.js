@@ -1,5 +1,6 @@
 exports.renderChoiceDetails = async (req, res) => {
   const { id } = req.params;
+  console.log(id)
   const choice = await req.API.get(`/choices/${id}`);
   res.render('choice/detail', { choice });
 };

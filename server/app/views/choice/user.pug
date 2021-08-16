@@ -5,6 +5,10 @@ block content
     ul.list
         for choice in choices
             li.list__item
-                span.list__item__title= choice.title
-                +link('/admin/choice/'+choice.id, 'View', 'fa-eye')
+                span.list__item__title= choice.value
+                 span.list__item__title= choice.type
+                 br
+                 +link('/admin/questions/'+choice.questionId, 'View Question Id', 'fa-eye')
+                 br
+                 +link('/admin/choices/'+choice.id, 'View Choice Id', 'fa-eye')
     +link('/admin/quizzes/new', 'Create Your Own Quiz', '', 'button primary')
