@@ -1,15 +1,22 @@
 
 exports.renderAuths = async (req, res) => {
   const auths = await req.API.get(`/auth`);
-  console.log({ auths });
+  console.log("auth: ", { auths });
+
+
+  // res.render("auth/user", { username, id });
   return res.render("auth/user", { auths });
 };
 
 exports.renderAuth = async (req, res) => {
   const { id } = req.params;
+  console.log("auth ===> ", id)
   const auth = await req.API.get(`/auth/${id}`);
-  console.log({ auth });
-  res.render("auth/detail", { auth });
+  let username;
+
+  username = auth['username'];
+  console.log({ auth, id });
+  res.render("auth/detail", { id, username });
 };
 // exports.renderAuthForm = async (req, res) => {
 //   const { id } = req.query;
@@ -31,9 +38,10 @@ exports.renderEditForm = async (req, res) => {
   console.log('edit form')
   const data = await req.API.get(`/auth/${id}`);
   let username;
-  data.map((item) => {
-    username = item.username;
-  })
+  username = data['username'];
+  // data.map((item) => {
+  //   username = item.username;
+  // })
   console.log(data)
   res.render("auth/form", { id, username });
 };

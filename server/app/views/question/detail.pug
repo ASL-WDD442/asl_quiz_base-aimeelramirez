@@ -6,12 +6,14 @@ block content
      h2.headingSecondary Question
 
      ul.list
-        for value in question
-         span= value.title
+         span= title
           div.list__item__footer
-            +link('/quiz/'+value.quizId, 'Return to Quiz', 'fa-eye', 'link')
-            +link('/admin/questions/edit/'+value.id, 'Edit', 'fa-edit', 'link')
-            +link('/admin/questions/delete/'+value.id, 'Delete', 'fa-trash', 'link linkSecondary')
+            +link('/quiz/'+quizId, 'Return to Quiz', 'fa-eye', 'link')
+            +link('/admin/questions/edit/'+id, 'Edit', 'fa-edit', 'link')
+         if choices.length > 0
+            +link('/admin/questions/delete/'+id, 'Delete', 'fa-trash', 'link linkSecondary disabled')
+         else 
+             +link('/admin/questions/delete/'+id, 'Delete', 'fa-trash', 'link linkSecondary')
 
      div
        h2.headingSecondary Choices

@@ -1,91 +1,38 @@
-const { v4: uuidv4, v1: uuidv1 } = require('uuid')
-const quizzes = require('./quizzes')
-const questions = require('./questions')
-const choices = require('./choices')
-const users = require('./auths');
-const token = uuidv1();
+'use strict';
 
-class Model {
-    constructor(data) {
-        this.values = data
-    }
+const fs = require('fs');
+const path = require('path');
+const Sequelize = require('sequelize');
 
-    create(item) {
-        const id = uuidv4();
-        this.values.push({
-            id: id,
-            ...item
+const basename = path.basename(__filename);
+const env = process.env.NODE_ENV || 'development';
+const config = require(__dirname + './../../db/config.json')[env];
+const db = {};
 
-        })
-        return id
-    }
-    createAUser(item) {
-        const id = uuidv4();
-        this.values.push({
-            id: id,
-            ...item,
-            access_token: token,
-            type: ""
-
-        })
-        return id
-    }
-    update(valuesToChange, id) {
-        const index = this.values.findIndex(item => item.id === id)
-        const newValue = { ...this.values[index], ...valuesToChange }
-        this.values = [
-            ...this.values.slice(0, index),
-            newValue,
-            ...this.values.slice(index + 1)
-        ]
-        return newValue
-    }
-
-    destroy(id) {
-        this.values = this.values.filter((item) => {
-            if (item.id === id) return false
-            return true
-        })
-    }
-
-    findByPk(id) {
-        return this.values.filter(item => item.id === id)
-    }
-
-    getLogin(user) {
-        return this.values.filter(item => item.username === user.username && item.password === user.password)
-    }
-    findByToken(target) {
-        const newToken = uuidv1();
-        return this.values.filter(item => {
-            if (item.username === target.username) {
-                //Change temp code for access_code/access_token
-                item.access_token = newToken
-                return item
-            }
-        })
-    }
-    findByQuiz(id) {
-        return this.values.filter(item => item.quizId === id)
-    }
-
-    findByQuestion(id) {
-        return this.values.filter(item => item.questionId === id)
-    }
-
-    findPublic() {
-        return this.values.filter(item => item.type === 'public')
-    }
-
-    findAll() {
-        return this.values
-    }
+let sequelize;
+if (config.use_env_variable) {
+  sequelize = new Sequelize(process.env[config.use_env_variable], config);
+} else {
+  sequelize = new Sequelize(config.database, config.username, config.password, config);
 }
 
-module.exports = {
-    Users: new Model(users),
-    Quizzes: new Model(quizzes),
-    Questions: new Model(questions),
-    Choices: new Model(choices)
+fs
+  .readdirSync(__dirname)
+  .filter(file => (file.indexOf('.') !== 0) && (file !== basename) && (file.slice(-3) === '.js'))
+  .forEach((file) => {
+    const model = require(path.join(__dirname, file))(sequelize, Sequelize.DataTypes);
+    db[model.name] = model;
+    // const model = sequelize.import(path.join(__dirname, file));
+    // db[model.name] = model;
+  });
 
-}
+Object.keys(db).forEach(modelName => {
+  if (db[modelName].associate) {
+    db[modelName].associate(db);
+  }
+});
+
+db.sequelize = sequelize;
+db.Sequelize = Sequelize;
+
+module.exports = db;

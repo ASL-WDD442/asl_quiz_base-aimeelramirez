@@ -7,11 +7,15 @@ exports.renderQuestionsAll = async (req, res) => {
 
 exports.renderQuestionDetails = async (req, res) => {
   const { id } = req.params;
+  console.log(id)
   const question = await req.API.get(`/questions/${id}`);
-  const choices = await req.API.get(`/choices?questionId=${id}`);
+  console.log("questions===> ", { question });
 
-  console.log({ question, choices });
-  res.render("question/detail", { id, question, choices });
+
+  const choices = await req.API.get(`/choices?questionId=${id}`);
+  let title = question['title'];
+  let quizId = question['quizId'];
+  res.render("question/detail", { id, title, quizId, choices });
 };
 
 
@@ -30,10 +34,12 @@ exports.renderEditForm = async (req, res) => {
   const { id } = req.params;
   const questions = await req.API.get(`/questions/${id}`);
   let title, quizId;
-  questions.map((item) => {
-    title = item.title;
-    quizId = item.quizId;
-  })
+  title = questions['title'];
+  quizId = questions['quizId'];
+  // questions.map((item) => {
+  //   title = item.title;
+  //   quizId = item.quizId;
+  // })
   console.log('edit ques form', id, quizId, title)
 
   console.log("questions:", { id, title, quizId })
@@ -53,7 +59,6 @@ exports.saveQuestion = async (req, res) => {
   } else {
     await req.API.post("/questions", question);
   }
-  // res.redirect(`/admin/quizzes/${question.quizId}`);
   res.redirect(`/admin/questions/list`);
 
 };

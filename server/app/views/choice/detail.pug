@@ -4,14 +4,13 @@ block content
     h4 My Choices Item
 
       ul.list
-        for value in choice
           li.list__item
-            span.list__item__title= value.value
-            span.list__item__title= value.type
+            span.list__item__title= value
+            span.list__item__title= type
             
           div
             +link('/quiz/list', 'Return to Quiz', 'fa-eye', 'link')
-            +link('/admin/choices/edit/'+ value.id, 'Edit', 'fa-edit', 'link')
-            +link('/admin/choices/delete/'+ value.id,'Delete', 'fa-trash', 'link linkSecondary')
-            +link('/admin/choices/new?questionId='+value.questionId, 'Create Your Own Choice', '', 'button primary')
+            +link('/admin/choices/edit/'+ id, 'Edit', 'fa-edit', 'link')
+            +link('/admin/choices/delete/'+ id,'Delete', 'fa-trash', 'link linkSecondary')
+            +link('/admin/choices/new?questionId='+questionId, 'Create Your Own Choice', '', 'button primary')
             

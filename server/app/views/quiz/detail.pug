@@ -1,21 +1,24 @@
-extends ./../_layout
-include ./../_includes/link_mixin
-
+extends ../_layout
+include ../_includes/link_mixin
 block content
-    div
-       span= name
-        div.list__item__footer
-
+    div.heading
+        span= name
         span
             +link('/admin/quizzes/edit/'+quizId, 'Edit', 'fa-edit', 'link')
-            +link('/admin/quizzes/delete/'+quizId, 'Delete', 'fa-trash', 'link linkSecondary')
+        if questions.length > 0
+            +link('/admin/quizzes/delete/'+quizId, 'Delete', 'fa-trash', 'link linkSecondary disabled')
+        else 
+             +link('/admin/quizzes/delete/'+quizId, 'Delete', 'fa-trash', 'link linkSecondary')
 
-    div
-        h2.headingSecondary Questions
-        ul.list
-         for value in questions
-            li.list__item
-                span.list__item__title=value.title
-                +link('/admin/questions/'+value.id, 'View', 'fa-eye', 'link')
-                +link('/admin/questions/delete/'+value.id, 'Delete', 'fa-trash', 'link linkSecondary')
-    +link('/admin/questions/new?quizId='+quizId, 'Create Your Own Question', '', 'button primary')
+        div
+            h2.headingSecondary Questions
+            ul.list
+                for question in questions
+                    li.list__item
+                        span.list__item__title= question.title
+                        div.list__item_footer
+                            +link('/admin/questions/'+question.id, 'View', 'fa-eye', 'link')
+                            +link('/admin/questions/edit/'+question.id, 'Edit', 'fa-edit', 'link')
+                            //- +link('/admin/questions/delete/'+question.id, 'Delete', 'fa-trash', 'link linkSecondary')
+            +link('/admin/questions/new?quizId='+quizId, 'Add a new question', '', 'button primary')
+            

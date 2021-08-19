@@ -7,12 +7,17 @@ exports.renderChoices = async (req, res) => {
 exports.renderChoiceDetails = async (req, res) => {
   const { id } = req.params;
   const choice = await req.API.get(`/choices/${id}`);
-  let questionId;
-  choice.map((item) => {
-    questionId = item.questionId;
-    console.log(questionId);
-  })
-  res.render("choice/detail", { choice, questionId });
+  let questionId, value, type;
+
+  questionId = choice['questionId'];
+  type = choice['type'];
+  value = choice['value'];
+  // choice.map((item) => {
+  //   questionId = item.questionId;
+  //   console.log(questionId);
+  // })
+  console.log({ id })
+  res.render("choice/detail", { value, type, id, questionId });
 };
 exports.renderChoiceForm = async (req, res) => {
 
@@ -40,12 +45,16 @@ exports.renderEditForm = async (req, res) => {
   console.log('edit form')
   const data = await req.API.get(`/choices/${id}`);
   let value, type, questionId;
-  data.map((item) => {
-    value = item.value;
-    type = item.type;
-    questionId = item.questionId;
 
-  })
+  value = data['value'];
+  type = data['type'];
+  questionId = data['questionId'];
+  // data.map((item) => {
+  //   value = item.value;
+  //   type = item.type;
+  //   questionId = item.questionId;
+
+  // })
   const correct = type;
   console.log(data)
   res.render("choice/form", { id, value, correct, questionId });

@@ -6,23 +6,37 @@ exports.renderLanding = async (req, res) => {
 exports.renderQuiz = async (req, res) => {
   const { id } = req.params;
   const quiz = await req.API.get(`/quizzes/${id}`);
-  // console.log(await req.API.get(`/quizzes/${id}`));
+  console.log(quiz);
   res.render('quiz/detail', { quiz });
 };
 
 exports.renderQuizDetail = async (req, res) => {
   let { id } = req.params;
+  console.log(id)
+  const data = await req.API.get(`/quizzes/${id}`);
   if (id) {
-    const data = await req.API.get(`/quizzes/${id}`);
+
+    console.log("data: ===> ", data)
     let name, type, quizId;
-    data.map((item) => {
-      name = item.name;
-      type = item.type;
-      quizId = item.id;
-    })
-    console.log(name)
+
+    name = data['name']
+    type = data['type']
+    quizId = data['id']
+
+    // data.map((item) => {
+    //   name = item.name;
+    //   type = item.type;
+    //   quizId = item.id;
+    // })
     const questions = await req.API.get(`/questions?quizId=${id}`);
-    // console.log({ name, type, quizId, questions })
+    console.log({ name, type, quizId, questions })
+    // console.log(questions)
+
+    if (questions) {
+
+
+      console.log('questions exists, please delete. if to delete quizzes');
+    }
     res.render('quiz/detail', { name, type, quizId, questions });
 
   }
@@ -55,8 +69,9 @@ exports.saveQuiz = async (req, res) => {
 };
 
 
-exports.deleteQuiz = async (req, res) => {
+exports.deleteQuiz = async (req, res, next) => {
   const { id } = req.params;
+
   await req.API.delete(`/quizzes/${id}`);
   res.redirect('/admin/quizzes/list');
 };
@@ -69,10 +84,13 @@ exports.renderEditForm = async (req, res) => {
   const { id } = req.params;
   const data = await req.API.get(`/quizzes/${id}`);
   let name, type;
-  data.map((item) => {
-    name = item.name;
-    type = item.type;
-  })
+
+  name = data['name'];
+  type = data['type'];
+  // data.map((item) => {
+  //   name = item.name;
+  //   type = item.type;
+  // })
   console.log("render edits: ", data)
   res.render('quiz/form', { id, name, type });
 };
