@@ -1,5 +1,3 @@
-'use strict';
-
 module.exports = (sequelize, DataTypes) => {
   const Quizzes = sequelize.define('Quizzes', {
     id: {
@@ -20,6 +18,14 @@ module.exports = (sequelize, DataTypes) => {
           args: [3, 50],
           msg: 'Quiz name must be at least 3 characters.',
         },
+      },
+    },
+    userId: {
+      type: DataTypes.UUID,
+      onDelete: 'CASCADE',
+      references: {
+        model: 'Users',
+        key: 'id',
       },
     },
     type: {
