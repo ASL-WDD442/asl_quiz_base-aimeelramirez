@@ -10,7 +10,10 @@ block content
           div.list__item__footer
             +link('/quiz/'+quizId, 'Return to Quiz', 'fa-eye', 'link')
             +link('/admin/questions/edit/'+id, 'Edit', 'fa-edit', 'link')
-            +link('/admin/questions/delete/'+id, 'Delete', 'fa-trash', 'link linkSecondary')
+         if choices.length > 0
+            +link('/admin/questions/delete/'+id, 'Delete', 'fa-trash', 'link linkSecondary disabled')
+         else 
+             +link('/admin/questions/delete/'+id, 'Delete', 'fa-trash', 'link linkSecondary')
 
      div
        h2.headingSecondary Choices

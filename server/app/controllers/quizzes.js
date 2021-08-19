@@ -32,6 +32,11 @@ exports.renderQuizDetail = async (req, res) => {
     console.log({ name, type, quizId, questions })
     // console.log(questions)
 
+    if (questions) {
+
+
+      console.log('questions exists, please delete. if to delete quizzes');
+    }
     res.render('quiz/detail', { name, type, quizId, questions });
 
   }
@@ -64,8 +69,9 @@ exports.saveQuiz = async (req, res) => {
 };
 
 
-exports.deleteQuiz = async (req, res) => {
+exports.deleteQuiz = async (req, res, next) => {
   const { id } = req.params;
+
   await req.API.delete(`/quizzes/${id}`);
   res.redirect('/admin/quizzes/list');
 };
