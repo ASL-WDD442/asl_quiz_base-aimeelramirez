@@ -23,10 +23,10 @@ exports.getOneById = async ({ params: { id } }, res) => {
     res.json(quiz);
 }
 exports.deleteQuiz = async (req, res) => {
-    const { id } = req.params
-    await Quizzes.destroy(id)
-    res.sendStatus(200)
-}
+    const { id } = req.params;
+    await Quizzes.destroy({ where: { id } });
+    res.sendStatus(200);
+};
 
 exports.createQuiz = async (req, res) => {
     const { name, type } = req.body;

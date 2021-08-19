@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       validate: {
         len: {
-          args: [2, 50],
+          args: 2,
           msg: 'Choice value is required.',
         },
       },
