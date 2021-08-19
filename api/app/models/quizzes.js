@@ -1,28 +1,5 @@
 'use strict';
 
-// const {
-//   Model
-// } = require('sequelize');
-// module.exports = (sequelize, DataTypes) => {
-//   class Quizzes extends Model {
-//     /**
-//      * Helper method for defining associations.
-//      * This method is not a part of Sequelize lifecycle.
-//      * The `models/index` file will call this method automatically.
-//      */
-//     static associate(models) {
-//       // define association here
-//     }
-//   };
-//   Quizzes.init({
-//     name: DataTypes.STRING,
-//     type: DataTypes.ENUM
-//   }, {
-//     sequelize,
-//     modelName: 'Quizzes',
-//   });
-//   return Quizzes;
-// };
 module.exports = (sequelize, DataTypes) => {
   const Quizzes = sequelize.define('Quizzes', {
     id: {
