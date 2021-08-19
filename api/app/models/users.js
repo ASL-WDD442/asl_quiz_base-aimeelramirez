@@ -1,26 +1,44 @@
-'use strict';
-const {
-  Model
-} = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class Users extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
-    static associate(models) {
-      // define association here
-    }
+  const Users = sequelize.define('Users', {
+    id: {
+      defaultValue: DataTypes.UUIDV4,
+      primaryKey: true,
+      type: DataTypes.UUID,
+      validate: {
+        isUUID: {
+          args: 4,
+          msg: 'ID is not valid. Please try again.',
+        },
+      },
+    },
+    username: {
+      type: DataTypes.STRING,
+      unique: {
+        args: true,
+        msg: 'Username is already in use.',
+      },
+      allowNull: {
+        args: false,
+        msg: 'Username is required.',
+      },
+    },
+    access_token: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    password: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    type: {
+      type: DataTypes.ENUM('type1', 'type2')
+
+    },
+  }, {});
+
+  Users.associate = (models) => {
+    Users.hasMany(models.Quizzes, { foreignKey: 'userId' });
   };
-  Users.init({
-    username: DataTypes.STRING,
-    access_token: DataTypes.STRING,
-    password: DataTypes.STRING,
-    type: DataTypes.ENUM('type1', 'type2')
-  }, {
-    sequelize,
-    modelName: 'Users',
-  });
+
   return Users;
 };

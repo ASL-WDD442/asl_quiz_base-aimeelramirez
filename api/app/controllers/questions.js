@@ -18,7 +18,7 @@ exports.getAll = async ({ query: { quizId } }, res, questions) => {
 
 exports.getOneById = async ({ params: { id } }, res) => {
     const question = await Questions.findByPk(id)
-    if (!question.length) {
+    if (!question) {
         res.sendStatus(404)
         return;
     }
@@ -56,31 +56,3 @@ exports.deleteQuestion = async (req, res) => {
     await Questions.destroy({ where: { id } });
     res.sendStatus(200);
 };
-
-// exports.createQuestion = async ({ body: { title, quizId } }, res) => {
-//     const id = await Questions.create({ title, quizId })
-//     res.json({ id })
-// }
-
-// exports.updateQuestion = ({ body: body, params: { id } }, res) => {
-//     const updatedQuestion = Questions.update(body, id)
-//     res.json(updatedQuestion)
-//}
-// exports.updateQuestion = async (req, res) => {
-//     const { id } = req.params;
-//     try {
-//         const [, [updatedQuestion]] = await Questions.update(req.body, {
-//             where: { id },
-//             returning: true,
-//         });
-//         res.json(updatedQuestion);
-//     } catch (e) {
-//         const errors = e.errors.map((err) => err.message);
-//         res.sendStatus(400).json({ errors });
-//     }
-// };
-
-// exports.deleteQuestion = ({ params: { id } }, res) => {
-//     Questions.destroy(id)
-//     res.sendStatus(200)
-// }

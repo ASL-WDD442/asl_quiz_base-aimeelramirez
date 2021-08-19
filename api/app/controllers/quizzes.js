@@ -3,22 +3,24 @@ const { Quizzes } = require('../models')
 
 exports.getAll = async (req, res) => {
     const quizzes = await Quizzes.findAll()
+    console.log(quizzes)
     res.json(quizzes)
 
 }
 
 exports.getPublic = async (req, res) => {
     const quizzes = await Quizzes.findAll({ where: { type: 'public' } });
+
     res.json(quizzes);
 };
 
 exports.getOneById = async ({ params: { id } }, res) => {
-    const quiz = await Quizzes.findByPk(id)
-    if (!quiz.length) {
-        res.sendStatus(404)
+    const quiz = await Quizzes.findByPk(id);
+    if (!quiz) {
+        res.sendStatus(404);
         return;
     }
-    res.json(quiz)
+    res.json(quiz);
 }
 exports.deleteQuiz = async (req, res) => {
     const { id } = req.params

@@ -17,30 +17,15 @@ exports.getAll = async ({ query: { questionId } }, res, choices) => {
     }
 }
 
-exports.getOneById = ({ params: { id } }, res) => {
-    const choice = Choices.findByPk(id)
-    if (!choice.length) {
+exports.getOneById = async ({ params: { id } }, res) => {
+
+    const choice = await Choices.findByPk(id)
+    if (!choice) {
         res.sendStatus(404); return;
     }
     res.json(choice);
 
 }
-
-// exports.createChoice = ({ body: { value, type, questionId } }, res) => {
-//     const id = Choices.create({ value, type, questionId });
-//     res.json(id)
-// }
-
-// exports.updateChoice = ({ params: { id }, body: body }, res) => {
-//     const updatedChoice = Choices.update(body, id);
-//     res.json(updatedChoice)
-// }
-
-// exports.deleteChoice = ({ params: { id } }, res) => {
-//     Choices.destroy(id);
-//     res.sendStatus(200)
-// }
-
 exports.createChoice = async (req, res) => {
     const { value, type, questionId } = req.body;
     try {
