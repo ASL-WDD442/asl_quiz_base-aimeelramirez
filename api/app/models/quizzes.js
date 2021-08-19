@@ -1,15 +1,63 @@
-//for public servers vs private servers with passcode
-module.exports = [
-    {
-        id: 'fd541aa9-bdbe-4328-b843-acb5a07f47b7',
-        name: 'Public Room',
-        type: 'public',
-        userId: '990ce598-e56a-4b97-bae4-9399391af4ac'
+'use strict';
+
+// const {
+//   Model
+// } = require('sequelize');
+// module.exports = (sequelize, DataTypes) => {
+//   class Quizzes extends Model {
+//     /**
+//      * Helper method for defining associations.
+//      * This method is not a part of Sequelize lifecycle.
+//      * The `models/index` file will call this method automatically.
+//      */
+//     static associate(models) {
+//       // define association here
+//     }
+//   };
+//   Quizzes.init({
+//     name: DataTypes.STRING,
+//     type: DataTypes.ENUM
+//   }, {
+//     sequelize,
+//     modelName: 'Quizzes',
+//   });
+//   return Quizzes;
+// };
+module.exports = (sequelize, DataTypes) => {
+  const Quizzes = sequelize.define('Quizzes', {
+    id: {
+      defaultValue: DataTypes.UUIDV4,
+      primaryKey: true,
+      type: DataTypes.UUID,
+      validate: {
+        isUUID: {
+          args: 4,
+          msg: 'ID is not valid. Please try again.',
+        },
+      },
     },
-    {
-        id: '39b5acf7-254e-46e3-b6a8-5f8edd02d81f',
-        name: 'Private Room',
-        type: 'private',
-        userId: 'd12ad635-4a2e-4672-9234-7bf066f6bcd4'
-    }
-]
+    name: {
+      type: DataTypes.STRING,
+      validate: {
+        len: {
+          args: [3, 50],
+          msg: 'Quiz name must be at least 3 characters.',
+        },
+      },
+    },
+    type: {
+      type: DataTypes.ENUM('public', 'private'),
+      validate: {
+        isIn: {
+          args: [['public', 'private']],
+          msg: 'Quiz must be public or private',
+        },
+      },
+    },
+  }, {});
+  Quizzes.associate = (models) => {
+    Quizzes.hasMany(models.Questions, { foreignKey: 'quizId' });
+    Quizzes.belongsTo(models.Users, { foreignKey: 'userId' });
+  };
+  return Quizzes;
+};

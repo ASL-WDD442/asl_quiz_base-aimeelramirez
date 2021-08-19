@@ -1,25 +1,67 @@
-module.exports = [
-    {
-        id: 'ba7be146-ec0e-4d93-8a04-6ee70a066335',
-        title: 'Be Thou My Vision - Audrey Assad',
-        quizId: 'fd541aa9-bdbe-4328-b843-acb5a07f47b7'
-    },
-    {
-        id: 'ac0881b3-2c0b-4ea4-a1b3-c2c0f3d1d193',
-        title: 'No Fear - Kari Jobe',
-        quizId: 'fd541aa9-bdbe-4328-b843-acb5a07f47b7'
-    },
-    {
-        id: '10f279f3-75a7-488e-8647-450616e4c533',
-        title: "In Over My Head - Jenn Johnson",
-        quizId: '39b5acf7-254e-46e3-b6a8-5f8edd02d81f'
-    },
-    {
-        id: '09939001-c4e5-4b1f-b366-b5b8b41401bb',
-        title: 'Even When It Hurts - Hillsong',
-        quizId: '39b5acf7-254e-46e3-b6a8-5f8edd02d81f'
-    }
-]
+'use strict';
+// const {
+//   Model
+// } = require('sequelize');
+// module.exports = (sequelize, DataTypes) => {
+//   class Questions extends Model {
+//     /**
+//      * Helper method for defining associations.
+//      * This method is not a part of Sequelize lifecycle.
+//      * The `models/index` file will call this method automatically.
+//      */
+//     static associate(models) {
+//       // define association here
+//     }
+//   };
+//   Questions.init({
+//     title: DataTypes.STRING
+//   }, {
+//     sequelize,
+//     modelName: 'Questions',
+//   });
+//   return Questions;
+// };
 
-//39b5acf7-254e-46e3-b6a8-5f8edd02d81f = private
-//fd541aa9-bdbe-4328-b843-acb5a07f47b7 = public
+module.exports = (sequelize, DataTypes) => {
+  const Questions = sequelize.define('Questions', {
+    id: {
+      defaultValue: DataTypes.UUIDV4,
+      primaryKey: true,
+      type: DataTypes.UUID,
+      validate: {
+        isUUID: {
+          args: 4,
+          msg: 'ID is not valid. Please try again.',
+        },
+      },
+    },
+    title: {
+      type: DataTypes.STRING,
+      validate: {
+        len: {
+          args: [3, 500],
+          msg: 'Question value is required.',
+        },
+      },
+    },
+    quizId: {
+      type: DataTypes.UUID,
+      onDelete: 'CASCADE',
+      references: {
+        model: 'Quizzes',
+        key: 'id',
+      },
+      validate: {
+        isUUID: {
+          args: 4,
+          msg: 'Quiz ID is not valid. Please try again.',
+        },
+      },
+    },
+  });
+  Questions.associate = (models) => {
+    Questions.belongsTo(models.Quizzes, { foreignKey: 'quizId' });
+    Questions.hasMany(models.Choices, { foreignKey: 'questionId' });
+  };
+  return Questions;
+};
