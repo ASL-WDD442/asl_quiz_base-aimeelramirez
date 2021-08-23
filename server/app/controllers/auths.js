@@ -1,7 +1,7 @@
 
 
 const querystring = require('querystring');
-const log = require('debug')('web:request');
+const log = require('debug')('server:request');
 
 exports.renderLogin = (req, res) => {
   res.render('auth/login');
@@ -11,9 +11,10 @@ exports.renderSignup = (req, res) => {
 };
 
 exports.verifySignup = async (req, res) => {
-  const { token, loggedIn } = await req.API.post('/auth/signup', req.body);
+  const { token, loggedIn, user } = await req.API.post('/auth/signup', req.body);
   req.session.loggedIn = loggedIn;
   req.session.token = token;
+
   res.redirect('/admin/quizzes/list');
 };
 
@@ -23,16 +24,16 @@ exports.renderLogin = (req, res) => {
   res.render('auth/login');
 };
 
-exports.verifySignup = async (req, res) => {
-  const { token, loggedIn } = await req.API.post('/auth/signup', req.body);
-  req.session.loggedIn = loggedIn;
-  req.session.token = token;
-  res.redirect('/admin/quizzes/list');
-};
+// exports.verifySignup = async (req, res) => {
+//   const { token, loggedIn } = await req.API.post('/auth/signup', req.body);
+//   req.session.loggedIn = loggedIn;
+//   req.session.token = token;
+//   res.redirect('/admin/quizzes/list');
+// };
 
-exports.renderLogin = (req, res) => {
-  res.render('auth/login');
-};
+// exports.renderLogin = (req, res) => {
+//   res.render('auth/login');
+// };
 
 exports.redirectToGoogle = (req, res) => {
   const GOOGLE_URL = 'https://accounts.google.com/o/oauth2/v2/auth?';
@@ -48,17 +49,27 @@ exports.redirectToGoogle = (req, res) => {
 
 exports.verifyGoogleCode = async (req, res) => {
   const { code } = req.query;
-  const { token, loggedIn } = await req.API.post('/auth/google', { code, url: process.env.CALLBACK_URL });
+  const { token, loggedIn, userId } = await req.API.post('/auth/google', { code, url: process.env.CALLBACK_URL });
   req.session.loggedIn = loggedIn;
   req.session.token = token;
-  res.redirect('/admin/quizzes/list');
+
+  req.session.userId = userId;
+  console.log(req.session.userId);
+
+  res.redirect('/admin/quizzes/list', { userId });
 };
 
 exports.login = async (req, res) => {
   const apiResponse = await req.API.post('/auth/login', req.body);
+  // console.log("SIGNING IN server", apiResponse)
+  // console.log("SIGNING IN server session", req.session)
+
+
   if (!apiResponse.error) {
     req.session.loggedIn = apiResponse.loggedIn;
     req.session.token = apiResponse.token;
+    req.session.userId = apiResponse['user'].id;
+    log('server: ', req.session.userId);
     res.redirect('/admin/quizzes/list');
   } else {
     res.render('auth/login', { errors: [{ msg: apiResponse.error }] });

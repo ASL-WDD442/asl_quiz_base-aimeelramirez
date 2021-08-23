@@ -3,9 +3,8 @@ const quizController = require('../controllers/quizzes');
 const authController = require('../controllers/auths');
 
 router.get('/', quizController.renderLanding);
-// router.get('/quizzes/:id', quizController.renderQuizDetail);
-// router.get('/', quizController.renderLanding);
 // router.get('/quizzes/:id', quizController.renderQuiz);
+router.get('/public', quizController.renderPublic);
 // Auth routes
 // Sign up
 router.get('/signup', authController.renderSignup);

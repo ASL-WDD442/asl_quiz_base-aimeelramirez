@@ -28,6 +28,8 @@ exports.getOneById = async ({ params: { id } }, res) => {
 
 exports.createQuestion = async (req, res) => {
     const { title, quizId } = req.body;
+    // let userId;
+    // req.sessions.userId = userId;
     try {
         const newQuestion = await Questions.create({ title, quizId });
         res.json({ id: newQuestion.id });
@@ -39,6 +41,7 @@ exports.createQuestion = async (req, res) => {
 
 exports.updateQuestion = async (req, res) => {
     const { id } = req.params;
+    console.log("question body on api:", req.body)
     try {
         const [, [updatedQuestion]] = await Questions.update(req.body, {
             where: { id },

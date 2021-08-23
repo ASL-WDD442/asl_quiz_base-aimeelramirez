@@ -1,10 +1,12 @@
 extends ../_layout
 include ../_includes/link_mixin
 block content
-    div.heading
+    if loggedIn
+     div.heading
         span= name
         span
             +link('/admin/quizzes/edit/'+quizId, 'Edit', 'fa-edit', 'link')
+    
         if questions.length > 0
             +link('/admin/quizzes/delete/'+quizId, 'Delete', 'fa-trash', 'link linkSecondary disabled')
         else 
@@ -18,7 +20,19 @@ block content
                         span.list__item__title= question.title
                         div.list__item_footer
                             +link('/admin/questions/'+question.id, 'View', 'fa-eye', 'link')
-                            +link('/admin/questions/edit/'+question.id, 'Edit', 'fa-edit', 'link')
+                            if loggedIn
+                              +link('/admin/questions/edit/'+question.id, 'Edit', 'fa-edit', 'link')
                             //- +link('/admin/questions/delete/'+question.id, 'Delete', 'fa-trash', 'link linkSecondary')
             +link('/admin/questions/new?quizId='+quizId, 'Add a new question', '', 'button primary')
-            
+    else 
+     div.heading
+       span= name
+         div
+           h2.headingSecondary Questions
+           ul.list
+              for question in questions
+                  li.list__item
+                      span.list__item__title= question.title
+                      div.list__item_footer
+                        //- +link('/admin/questions/'+question.id, 'View', 'fa-eye', 'link')
+           

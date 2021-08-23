@@ -29,7 +29,7 @@ exports.exchangeCode = async (req, res) => {
             access_token: data.access_token,
             username: userData.data.email,
             name: userData.data.name,
-            // type: 'type1',
+            type: 'type1',
         });
         const token = jwt.sign({ id: user.id }, process.env.SECRET);
         res.json({ token, loggedIn: true });
@@ -41,14 +41,16 @@ exports.exchangeCode = async (req, res) => {
 
 exports.registerUser = async (req, res) => {
     await bcrypt.hash(req.body.password, saltRounds, async (err, hash) => {
-        const [user] = await Users.upsert({
+        let values = {
             username: req.body.email,
             name: req.body.name,
             password: hash,
             type: 'type2'
-        });
-        const token = jwt.sign({ id: user.id }, process.env.SECRET);
-        res.json({ token, loggedIn: true });
+        }
+        const [user] = await Users.upsert(values);
+        let userId = user.id;
+        const token = jwt.sign({ id: userId }, process.env.SECRET);
+        return res.json({ userId, token, loggedIn: true });
     });
 };
 
@@ -56,17 +58,20 @@ exports.loginUser = async (req, res) => {
     const { email, password } = req.body;
     const [user] = await Users.findAll({ where: { username: email } });
     if (user) {
+
         bcrypt.compare(password, user.password, (err, result) => {
             if (result) {
                 const token = jwt.sign({ id: user.id }, process.env.SECRET);
-                res.json({ token, loggedIn: true });
+                console.log("SIGNING IN api", user.id)
+                return res.json({ token, loggedIn: true, user });
             } else {
                 res.json({ loggedIn: false, error: 'Invalid credentials!' });
             }
         });
-    } else {
-        res.json({ loggedIn: false, error: 'No user found!' });
     }
+    // } else {
+    //     res.json({ loggedIn: false, error: 'No user found!' });
+    // }
 };
 
 

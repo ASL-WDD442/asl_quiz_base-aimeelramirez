@@ -10,7 +10,6 @@ exports.getAll = async (req, res) => {
 
 exports.getPublic = async (req, res) => {
     const quizzes = await Quizzes.findAll({ where: { type: 'public' } });
-
     res.json(quizzes);
 };
 
@@ -30,8 +29,9 @@ exports.deleteQuiz = async (req, res) => {
 
 exports.createQuiz = async (req, res) => {
     const { name, type } = req.body;
+
     try {
-        const newQuiz = await Quizzes.create({ name, type, userId: req.userId });
+        const newQuiz = await Quizzes.create({ name, type });
         res.json({ id: newQuiz.id });
     } catch (e) {
         const errors = e.errors.map((err) => err.message);
@@ -41,6 +41,7 @@ exports.createQuiz = async (req, res) => {
 
 exports.updateQuiz = async (req, res) => {
     const { id } = req.params;
+    console.log("REQ update quiz:", { id })
     try {
         const [, [updatedQuiz]] = await Quizzes.update(req.body, {
             where: { id },
