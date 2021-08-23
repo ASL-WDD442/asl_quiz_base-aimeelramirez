@@ -26,13 +26,25 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: true,
     },
+    name: {
+      type: DataTypes.STRING,
+      allowNull: {
+        args: false,
+        msg: 'Name is required',
+      },
+    },
     password: {
       type: DataTypes.STRING,
       allowNull: true,
     },
     type: {
-      type: DataTypes.ENUM('type1', 'type2')
-
+      type: DataTypes.ENUM('type1', 'type2'),
+      validate: {
+        isIn: {
+          args: [['type1', 'type2']],
+          msg: 'User type must be google or regular',
+        },
+      },
     },
   }, {});
 
