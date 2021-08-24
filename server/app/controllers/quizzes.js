@@ -1,6 +1,6 @@
 const log = require('debug')('server:log');
 
-
+let userIdStore = '';
 exports.renderLanding = async (req, res) => {
   const quizzes = await req.API.get('/quizzes/public');
   log("get quizzes:", quizzes)
@@ -11,12 +11,20 @@ exports.renderPublic = async (req, res) => {
   log("get quizzes pub:", quizzes)
   res.render('quiz/user', { quizzes });
 };
+// exports.renderMyQuizzes = async (req, res) => {
+//   log(req.session)
+//   let userId = req.session.userId;
+//   const quizzes = await req.API.get(`/quizzes?userId=${userId}`);
+//   res.render('quiz/user', { quizzes });
+// };
 exports.renderMyQuizzes = async (req, res) => {
-  log(req.session)
-  let userId = req.session.userId;
+  const { userId } = req.query;
+  console.log(userIdStore);
+  // log(req)
   const quizzes = await req.API.get(`/quizzes?userId=${userId}`);
   res.render('quiz/user', { quizzes });
 };
+
 
 exports.renderQuiz = async (req, res) => {
   const { id } = req.params;
@@ -28,13 +36,11 @@ exports.renderQuiz = async (req, res) => {
 exports.renderQuizDetail = async (req, res) => {
   let { id } = req.params;
   const data = await req.API.get(`/quizzes/${id}`);
-  console.log(data)
+  // console.log(data)
 
   if (id) {
-
-    console.log("data: ===> ", data)
+    // console.log("data: ===> ", data)
     let name, type, quizId, userId;
-
     name = data['name']
     type = data['type']
     quizId = data['id']
@@ -46,11 +52,7 @@ exports.renderQuizDetail = async (req, res) => {
     // })
     const questions = await req.API.get(`/questions?quizId=${id}`);
     console.log("Details:", { name, type, quizId, questions, userId })
-    // console.log(questions)
-
     if (questions) {
-
-
       console.log('questions exists, please delete. if to delete quizzes');
     }
     res.render('quiz/detail', { name, type, quizId, questions, userId });
@@ -58,12 +60,6 @@ exports.renderQuizDetail = async (req, res) => {
   }
 };
 
-// exports.renderMyQuizzes = async (req, res) => {
-//   const { userId } = req.query;
-//   console.log(req.query)
-//   const quizzes = await req.API.get(`/quizzes?userId=${userId}`);
-//   res.render('quiz/user', { quizzes });
-// };
 
 exports.renderQuizForm = async (req, res) => {
   res.render('quiz/form', { id: '', name: '', type: 'private' });
@@ -79,7 +75,7 @@ exports.saveQuiz = async (req, res) => {
   let user = req.session.userId;
   console.log(user)
   let token = req.session.token;
-  log('server >>: ', { name, type, token, userId });
+  log('save >>: ', { name, type, token, userId });
 
   if (id) {
     await req.API.put(`/quizzes/${id}`, { name, type, token, userId });
@@ -104,21 +100,21 @@ exports.renderQuizFormWithErrors = (errors, req, res, next) => {
 exports.renderEditForm = async (req, res) => {
   const { id } = req.params;
   let token = req.session.token;
-  // let userId = req.session.userId;
-
-  log('server token??? ', req.session);
-
+  let userId = req.session.userId;
+  // log('server token??? ', req.userId);
   const data = await req.API.get(`/quizzes/${id}`);
-  let name, type, userId;
+  let name, type;
 
   name = data['name'];
   type = data['type'];
-  userId = data['userId'];
+  if (token) {
+    userId = data['id'];
+  }
+  else {
+    userId = data['userId'];
 
-  // data.map((item) => {
-  //   name = item.name;
-  //   type = item.type;
-  // })
+  }
+  userIdStore = userId;
   console.log("render edits: ", data)
   res.render('quiz/form', { id, name, type, token, userId });
 };

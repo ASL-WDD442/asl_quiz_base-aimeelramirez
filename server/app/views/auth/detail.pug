@@ -1,9 +1,18 @@
 extends ./../_layout
 include ./../_includes/link_mixin
 block content
-      ul.list
+
+     
+         h2.headingSecondary User's Profile
+
          span= username
            span
             +link('/quiz/list', 'Return to Quiz', 'fa-eye', 'link')
             +link('/admin/auth/edit/'+id, 'Edit', 'fa-edit', 'link')
-        
+
+         ul.list
+         h3.list__item__title User's Quizzes
+         for quiz in quizzes
+            li.list__item
+                span.list__item__title= quiz.name
+                +link('/quiz/'+quiz.id, 'View', 'fa-eye')

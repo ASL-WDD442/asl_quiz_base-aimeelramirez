@@ -9,7 +9,7 @@ const protectedRoute = (req, res, next) => {
     try {
         const { id } = jwt.verify(token, process.env.SECRET);
         req.userId = id;
-
+        req.body.userId = id;
         return next();
     } catch (e) {
         return res.status(401).json({ loggedIn: false });

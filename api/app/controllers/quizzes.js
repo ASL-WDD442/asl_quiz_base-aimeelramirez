@@ -14,6 +14,7 @@ exports.getPublic = async (req, res) => {
 };
 
 exports.getOneById = async ({ params: { id } }, res) => {
+    // console.log("This is get one ", id)
     const quiz = await Quizzes.findByPk(id);
     if (!quiz) {
         res.sendStatus(404);
@@ -41,16 +42,21 @@ exports.createQuiz = async (req, res) => {
 
 exports.updateQuiz = async (req, res) => {
     const { id } = req.params;
-    console.log("REQ update quiz:", { id })
+    console.log("REQ update quiz:", req.body)
     try {
         const [, [updatedQuiz]] = await Quizzes.update(req.body, {
             where: { id },
             returning: true,
         });
+        console.log("REQ update quiz:", [, [updatedQuiz]])
+
         res.json(updatedQuiz);
-    } catch (e) {
-        const errors = e.errors.map((err) => err.message);
-        res.sendStatus(400).json({ errors });
+    } catch (err) {
+        // const errors = e.errors.map((err) => err.message);
+        // res.sendStatus(400).json({ errors });
+        console.log(err);
+        res.sendStatus(500);
+        return;
     }
 };
 

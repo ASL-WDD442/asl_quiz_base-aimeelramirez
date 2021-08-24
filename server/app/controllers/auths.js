@@ -56,7 +56,7 @@ exports.verifyGoogleCode = async (req, res) => {
   req.session.userId = userId;
   console.log(req.session.userId);
 
-  res.redirect('/admin/quizzes/list', { userId });
+  res.redirect('/admin/quizzes/list');
 };
 
 exports.login = async (req, res) => {
@@ -90,12 +90,23 @@ exports.renderAuths = async (req, res) => {
 
 exports.renderAuth = async (req, res) => {
   const { id } = req.params;
-  console.log("auth ===> ", id)
+  // console.log("auth ===> ", id)
   const auth = await req.API.get(`/auth/${id}`);
+  let authId = auth['id'];
+  console.log(authId);
+
+  let quizzes = await req.API.get(`/quizzes?userId=${authId}`);
+  quizzes = quizzes.filter((item) => {
+    if (item.userId === authId) {
+      return item;
+    }
+  })
+  console.log(quizzes)
+
   let username;
   username = auth['username'];
-  console.log({ auth, id });
-  res.render("auth/detail", { id, username });
+  // console.log({ auth, id });
+  res.render("auth/detail", { id, username, quizzes });
 };
 
 exports.renderAuthFormWithErrors = (errors, req, res, next) => {

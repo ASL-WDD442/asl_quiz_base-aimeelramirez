@@ -5,7 +5,7 @@ const protectedRoute = require('../utils/protectedRoute');
 router.get('/', choicesController.getAll)
 router.get('/:id', choicesController.getOneById)
 router.post('/', choicesController.createChoice)
-router.put('/:id', protectedRoute, choicesController.updateChoice)
-router.delete('/:id', protectedRoute, choicesController.deleteChoice)
+router.put('/:id', choicesController.updateChoice)
+router.delete('/:id', choicesController.deleteChoice)
 
 module.exports = router
