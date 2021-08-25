@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { createRef } from 'react';
 import PropTypes from 'prop-types';
 import RRPropTypes from 'react-router-prop-types';
 import styles from '../styles.module.css';
@@ -12,11 +12,14 @@ class QuizForm extends React.Component {
       type: undefined,
       userId: undefined,
     }
+    this.formRef = createRef();
+    this.radioRef = createRef();
+
   }
 
   componentDidMount() {
     const { fetchQuiz, match: { params: { id } } } = this.props;
-    if (id) fetchQuiz(id);
+    if (id) return fetchQuiz(id);
   }
 
   handleInputChange = (event) => {
@@ -29,9 +32,27 @@ class QuizForm extends React.Component {
   save = async (event) => {
     event.preventDefault();
     const { quiz: { id, userId }, saveQuiz, history } = this.props;
-    const { name, type = 'public' } = this.state;
-    const data = await saveQuiz({ id, name, type, userId });
-    history.push(`/admin/quizzes/${data.id}`);
+
+    let filterInput = [...this.radioRef.current.children];
+    filterInput = filterInput.filter((item) => {
+      if (item.type === "radio") return item;
+
+    })
+    const { name, type = filterInput[0].checked ? filterInput[0].value : filterInput[1].value } = this.state;
+    if (id !== void 0) {
+      // console.log(id)
+      const data = await saveQuiz({ id: id, name: name, type: type, userId: userId });
+      console.log(data)
+      history.push(`/admin/quizzes/${id}`);
+
+    } else {
+      let userId = localStorage.getItem('userId');
+      console.log(userId)
+      const data = await saveQuiz({ name, type, userId });
+      console.log(data);
+      history.push(`/admin/quizzes/${data.id}`);
+
+    }
   }
 
   render() {
@@ -41,7 +62,7 @@ class QuizForm extends React.Component {
     return (
       <>
         <h1 className={styles.heading}>{id ? 'Edit Quiz' : 'New Quiz'}</h1>
-        <form method="POST" className={styles.form} onSubmit={this.save}>
+        <form method="POST" className={styles.form} onSubmit={this.save} ref={this.formRef}>
           <label className={styles.form__label} htmlFor="name">Quiz Name
             <input
               type="text"
@@ -51,31 +72,31 @@ class QuizForm extends React.Component {
               className={styles.form__input}
               onChange={this.handleInputChange} />
           </label>
-          <label className={styles.form__label} htmlFor="type">
-            <span className={styles.form__labelInline}>Quiz Type</span>
-            <label className={styles.form__labelInline}>
-              <input
-                type="radio"
-                name="type"
-                value="public"
-                id="type"
-                checked={type === 'public'}
-                className={styles.form__input__radio}
-                onChange={this.handleInputChange} />
-              <span>Public</span>
-            </label>
-            <label className={styles.form__labelInline} htmlFor="type">
-              <input
-                type="radio"
-                name="type"
-                value="private"
-                id="type"
-                checked={type === 'private'}
-                className={styles.form__input__radio}
-                onChange={this.handleInputChange} />
-              <span>Private</span>
-            </label>
-          </label>
+          <span className={styles.form__labelInline}>Quiz Type</span>
+          <section className={styles.form__label} htmlFor="type" ref={this.radioRef}>
+            {/* <label className={styles.form__labelInline}> */}
+            <input
+              type="radio"
+              name="type"
+              value="public"
+              // id="type"
+              checked={type === 'public'}
+              className={styles.form__input__radio}
+              onChange={this.handleInputChange} />
+            <label>Public</label>
+
+            {/* <label className={styles.form__labelInline} htmlFor="type"> */}
+            <input
+              type="radio"
+              name="type"
+              value="private"
+              // id="type"
+              checked={type === 'private'}
+              className={styles.form__input__radio}
+              onChange={this.handleInputChange} />
+            <label>Private</label>
+            {/* </label> */}
+          </section>
           <button type="submit" className={[styles.button, styles.active].join(' ')}>{name ? 'Save Quiz' : 'Create Quiz'}</button>
         </form>
       </>

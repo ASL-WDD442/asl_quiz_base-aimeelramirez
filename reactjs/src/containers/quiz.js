@@ -11,23 +11,32 @@ export default function container(Component) {
     }
 
     fetchQuiz = async (id) => {
+      // const quizzes = await API.get(`/quizzes`);
       const quiz = await API.get(`/quizzes/${id}`);
       const questions = await API.get(`/questions?quizId=${id}`)
-      questions.forEach(async (question) => {
-        question.choices = await API.get(`/choices?questionId=${question.id}`);
-      })
-      this.setState({ quiz, questions });
+      if (questions) {
+        questions.forEach(async (question) => {
+          question.choices = await API.get(`/choices?questionId=${question.id}`);
+        })
+        this.setState({ quiz, questions });
+      }
+      this.setState({ quiz });
+
     }
 
     saveQuiz = async (quiz) => {
-      if (quiz.id) {
-        return API.put(`/quizzes/${quiz.id}`, quiz);
+      if (quiz.id === void 0) {
+        const sendQuiz = await API.post('/quizzes', { quiz: quiz });
+        return sendQuiz;
+      } else {
+        const sendQuiz = await API.put(`/quizzes/${quiz.id}`, { quiz: quiz });
+        console.log(sendQuiz)
+        return sendQuiz;
       }
-      return API.post('/quizzes', quiz);
     }
 
     deleteQuiz = async (id) => {
-      await API.delete(`/quizzes/${id}`);
+      return await API.delete(`/quizzes/${id}`);
     }
 
     render() {

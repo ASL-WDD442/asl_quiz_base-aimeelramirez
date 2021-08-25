@@ -2,10 +2,7 @@ import https from 'https'
 import axios from 'axios'
 
 const API = axios.create({
-  baseURL: process.env.API_URL || 'http://localhost:4000',
-  httpsAgent: new https.Agent({
-    rejectUnauthorized: false
-  }),
+  baseURL: process.env.API_URL || 'http://localhost:4000'
 });
 
 API.interceptors.response.use(
@@ -18,10 +15,11 @@ API.interceptors.response.use(
 API.interceptors.request.use(async (config) => {
   if (localStorage.getItem('token')) {
     const token = localStorage.getItem('token')
-    console.log(token)
+    const userId = localStorage.getItem('userId')
+
     return {
       ...config,
-      headers: { common: { token } },
+      headers: { common: { token, userId } },
     };
   }
   else {

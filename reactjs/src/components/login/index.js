@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { createRef } from 'react';
 import PropTypes from 'prop-types';
 import RRPropTypes from 'react-router-prop-types';
 import { Redirect } from 'react-router-dom';
@@ -6,7 +6,15 @@ import styles from './styles.module.css';
 import AuthContainer from '../../containers/auth';
 import API from './../../API';
 
+
 class Login extends React.Component {
+  constructor(props) {
+    super(props);
+    this.formRef = createRef();
+
+
+  }
+
   state = {
     formRef: null,
     email: "",
@@ -17,7 +25,10 @@ class Login extends React.Component {
   }
   componentDidMount() {
 
-    const { location, verifyGoogleCode } = this.props;
+    const {
+      location,
+      verifyGoogleCode
+    } = this.props;
     const queryParams = new URLSearchParams(location.search);
     const code = queryParams.get('code');
     if (code) verifyGoogleCode(code);
@@ -33,41 +44,53 @@ class Login extends React.Component {
 
   }
 
-  handleFormChange = (e) => {
-    switch (e.target.name) {
-      case "email":
-        console.log(e.target.value)
-        this.setState({ email: e.target.value });
-      case "password":
-        console.log(e.target.value)
-        this.setState({ password: e.target.value });
-      default:
-        return null;
-    }
+  handleFormChange = () => {
 
   }
-  // handleEmailChange = (e) => {
-  //   this.setState({ email: e.target.value });
-  // }
-  // handlePasswordChange = (e) => {
-  //   this.setState({ password: e.target.value });
-  // }
+  validateEmptyForm = (e) => {
+        e.preventDefault();
+
+    const formRef = this.formRef;
+    if (formRef.current[0].value !== "" && formRef.current[0].value.length > 4) {
+      this.setState({
+        email: formRef.current[0].value
+      });
+    } else {
+      console.log('Please fill a valid email/username.');
+
+      return null && formRef.current[0].focus();
+    }
+    if (formRef.current[1].value !== "" && formRef.current[1].value.length >=4) {
+      this.setState({
+        password: formRef.current[1].value
+      });
+    } else {
+      console.log('Please fill out password more than 4 chars long.');
+      return null && formRef.current[1].focus();
+
+    }
+  }
   loginHandle = async (e) => {
     e.preventDefault();
+
 
     let username = this.state.email;
     let password = this.state.password;
 
-    const apiResponse = await API.post('/auth/login', { email: username, password: password });
-    console.log("api: ", apiResponse)
-    localStorage.setItem('token', apiResponse['token']);
-
-    localStorage.setItem('id', apiResponse['user'].userId);
-    this.setState({ loggedIn: true });
+    const apiResponse = await API.post('/auth/login', {
+      email: username,
+      password: password
+    })
+    console.log("api: RES ", apiResponse.user)
+    
+    localStorage.setItem('token', apiResponse.token);
+    localStorage.setItem('userId', apiResponse.user.id);
+    this.setState({
+      loggedIn: true
+    });
     if (this.state.loggedIn) {
-      return <Redirect to="/admin/quizzes" /> && window.location.reload()
+      return <Redirect to="/admin/quizzes" /> && window.location.reload();
     }
-
 
 
     // this.setState({ formRef: data })
@@ -79,7 +102,7 @@ class Login extends React.Component {
     return (
       <>
         <h1 className={styles.heading}>Login</h1>
-        <form method="POST" className={styles.form} onChange={this.handleFormChange}>
+        <form method="POST" className={styles.form} ref={this.formRef} onChange={this.validateEmptyForm}>
           <label className={styles.form__label}>Email
             <input type="email" name="email" className={styles.form__input}></input>
           </label>

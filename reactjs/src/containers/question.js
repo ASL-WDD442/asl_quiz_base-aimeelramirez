@@ -11,9 +11,11 @@ export default function container(Component) {
     }
 
     fetchQuestion = async (id) => {
-      const question = await API.get(`/questions/${id}`);
-      const choices = await API.get(`/choices?questionId=${id}`);
-      this.setState({ question, choices });
+      if (id) {
+        const question = await API.get(`/questions/${id}`);
+        const choices = await API.get(`/choices?questionId=${id}`);
+        this.setState({ question, choices });
+      }
     }
 
     saveQuestion = async (question) => {

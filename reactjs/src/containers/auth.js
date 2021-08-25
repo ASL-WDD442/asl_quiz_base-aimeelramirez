@@ -16,13 +16,16 @@ export default function container(Component) {
 
     verifyGoogleCode = async (code) => {
       const data = await API.post('/auth/google', { code, url: process.env.REACT_APP_CALLBACK_URL });
-      console.log(data)
-      let token = data['token'];
-      let loggedIn = data['loggedIn'];
-      let userId = data['userId'];
-      console.log(userId)
+      // console.log(data)
+  
+      // let userId = data['userId'];
+      // console.log(userId)
       localStorage.setItem('token', token);
-      localStorage.setItem('id', userId);
+      localStorage.setItem('data',JSON.stringify(data));
+    let token = data.token;
+
+      let loggedIn = true;
+      // localStorage.setItem('id', id);
 
       this.setState({ loggedIn });
     }
@@ -34,7 +37,7 @@ export default function container(Component) {
     // }
 
     render() {
-      const { loggedIn, formRef } = this.state;
+      const { loggedIn } = this.state;
       return (
         <Component
           {...this.props}
