@@ -11,18 +11,18 @@ class Login extends React.Component {
   constructor(props) {
     super(props);
     this.formRef = createRef();
+    this.state = {
+      formRef: null,
+      email: "",
+      password: "",
+      loggedIn: !!localStorage.getItem('token')
 
 
-  }
-
-  state = {
-    formRef: null,
-    email: "",
-    password: "",
-    loggedIn: !!localStorage.getItem('token')
-
+    }
 
   }
+
+
   componentDidMount() {
 
     const {
@@ -48,7 +48,7 @@ class Login extends React.Component {
 
   }
   validateEmptyForm = (e) => {
-        e.preventDefault();
+    e.preventDefault();
 
     const formRef = this.formRef;
     if (formRef.current[0].value !== "" && formRef.current[0].value.length > 4) {
@@ -60,7 +60,7 @@ class Login extends React.Component {
 
       return null && formRef.current[0].focus();
     }
-    if (formRef.current[1].value !== "" && formRef.current[1].value.length >=4) {
+    if (formRef.current[1].value !== "" && formRef.current[1].value.length >= 4) {
       this.setState({
         password: formRef.current[1].value
       });
@@ -82,7 +82,7 @@ class Login extends React.Component {
       password: password
     })
     console.log("api: RES ", apiResponse.user)
-    
+
     localStorage.setItem('token', apiResponse.token);
     localStorage.setItem('userId', apiResponse.user.id);
     this.setState({
@@ -92,8 +92,6 @@ class Login extends React.Component {
       return <Redirect to="/admin/quizzes" /> && window.location.reload();
     }
 
-
-    // this.setState({ formRef: data })
 
   }
   render() {

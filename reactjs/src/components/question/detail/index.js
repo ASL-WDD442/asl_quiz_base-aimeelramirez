@@ -18,26 +18,33 @@ class QuestionDetail extends React.Component {
 
   render() {
     const { question, choices } = this.props;
+    let showButton = "";
+    if (choices.length !== 0) {
+      console.log(choices)
+      showButton = <span> <a title='Delete' icon='fa-trash' className='link  linkSecondary' id='disabled' /></span>
+    } else {
+      console.log(choices)
+      showButton = <span role="presentation" onClick={this.delete}> <Link url={'/admin/quizzes/' + question.quizId} title='Delete' icon='fa-trash' className='link linkSecondary' /> </span>
+
+    }
     return (
       <div>
         <div className={styles.heading}>
           <span>{question.title}</span>
           <span>
             <Link url={'/admin/questions/edit/' + question.id} title='Edit' icon='fa-edit' className='link' />
-            <span onClick={this.delete} role="presentation">
-              <Link url={'/admin/quizzes/' + question.quizId} title='Delete' icon='fa-trash' className='link linkSecondary' />
-            </span>
+            {showButton}
           </span>
           <div>
             <h2 className={styles.headingSecondary}>Choices</h2>
             <ul className={styles.list}>
               {choices.map(choice => (
-                  <li className={styles.list__item} key={choice.id}>
+                <li className={styles.list__item} key={choice.id}>
                   <span className={styles.list__item__title}>{choice.value}</span>
                   <div className={styles.list__item_footer}>
                     <Link url={'/admin/choices/edit/' + choice.id} title='Edit' icon='fa-edit' className='link' />
-                    </div>
-                  </li>
+                  </div>
+                </li>
               ))}
             </ul>
             <Link url={`/admin/choices/new?questionId=${question.id}`} title='Add a new choice' icon='' className='button primary' />

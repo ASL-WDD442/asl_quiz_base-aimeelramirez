@@ -115,6 +115,14 @@ h2 {
   border-color: var(--primary-color);
 }
 
+#disabled {
+  outline: 1px solid red;
+  color: currentColor !important;
+  cursor: not-allowed !important;
+  opacity: 0.5 !important;
+  text-decoration: none !important;
+  pointer-events: none !important;
+}
 .button {
   font-family: var(--secondary-font-family);
   font-size: 18px;

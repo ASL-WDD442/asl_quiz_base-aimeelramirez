@@ -1,17 +1,17 @@
 .heading {
-	font-family: var(--secondary-font-family);
-	font-weight: 400;
-	font-size: 2.5em;
-	line-height: 1.25em;
-	color: var(--primary-color);
+  font-family: var(--secondary-font-family);
+  font-weight: 400;
+  font-size: 2.5em;
+  line-height: 1.25em;
+  color: var(--primary-color);
 }
 
-.list {
+/* .list {
   border: 1px solid var(--border-color);
   border-top: none;
   background-color: var(--secondary-background-color);
   padding: 0;
-}
+} */
 
 .list__item {
   display: flex;
@@ -33,5 +33,13 @@
 }
 
 .button {
-  composes: button from '../../brand.css';
+  composes: button from "../../brand.css";
 }
+
+/* a.disabled:hover > i {
+  color: currentColor !important;
+  cursor: not-allowed !important;
+  opacity: 0.5 !important;
+  text-decoration: none !important;
+  pointer-events: none !important;
+} */
