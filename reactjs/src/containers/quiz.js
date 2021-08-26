@@ -9,6 +9,7 @@ export default function container(Component) {
       quiz: {},
       questions: [],
     }
+    //TODO get the route to only path on  console.log(await req.API.get(`/quizzes?userId=${userId}`));
 
     fetchQuiz = async (id) => {
       // const quizzes = await API.get(`/quizzes`);
@@ -30,13 +31,14 @@ export default function container(Component) {
         return sendQuiz;
       } else {
         const sendQuiz = await API.put(`/quizzes/${quiz.id}`, { quiz: quiz });
-        //console.log(sendQuiz)
+        // console.log(sendQuiz)
         return sendQuiz;
       }
     }
 
     deleteQuiz = async (id) => {
-      return await API.delete(`/quizzes/${id}`);
+      await API.delete(`/quizzes/${id}`);
+
     }
 
     render() {

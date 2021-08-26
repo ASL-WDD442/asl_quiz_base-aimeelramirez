@@ -24,7 +24,6 @@ class Login extends React.Component {
 
 
   componentDidMount() {
-
     const {
       location,
       verifyGoogleCode
@@ -44,9 +43,6 @@ class Login extends React.Component {
 
   }
 
-  handleFormChange = () => {
-
-  }
   validateEmptyForm = (e) => {
     e.preventDefault();
 
@@ -57,7 +53,6 @@ class Login extends React.Component {
       });
     } else {
       console.log('Please fill a valid email/username.');
-
       return null && formRef.current[0].focus();
     }
     if (formRef.current[1].value !== "" && formRef.current[1].value.length >= 4) {
@@ -81,7 +76,7 @@ class Login extends React.Component {
       email: username,
       password: password
     })
-    console.log("api: RES ", apiResponse.user)
+    // console.log("api: RES ", apiResponse.user)
 
     localStorage.setItem('token', apiResponse.token);
     localStorage.setItem('userId', apiResponse.user.id);

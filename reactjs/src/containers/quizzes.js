@@ -9,7 +9,7 @@ export default function container(Component) {
       userQuizzes: [],
       publicQuizzes: [],
     }
-
+    //TODO get the route to only path on  console.log(await req.API.get(`/quizzes?userId=${userId}`));
     fetchUserQuizzes = async () => {
       const userQuizzes = await API.get('/quizzes');
       this.setState({ userQuizzes });

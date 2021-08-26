@@ -25,11 +25,6 @@ export default function container(Component) {
       this.setState({ loggedIn });
     }
 
-    // signup = async (user) => {
-    //   const { token, loggedIn } = await API.post('/auth/signup', user);
-    //   localStorage.setItem('token', token);
-    //   this.setState({ loggedIn });
-    // }
 
     render() {
       const { loggedIn } = this.state;

@@ -5,8 +5,29 @@ import styles from './styles.module.css';
 import AuthContainer from '../../containers/auth';
 
 class Signup extends React.Component {
+  constructor(props) {
+    super(props);
+    this.formRef = createRef();
+    this.state = {
+      formRef: null,
+      email: "",
+      password: "",
+      loggedIn: !!localStorage.getItem('token')
+
+
+    }
+
+  }
+
+
   componentDidMount() {
 
+  }
+
+  signup = async (user) => {
+    const { token, loggedIn } = await API.post('/auth/signup', user);
+    localStorage.setItem('token', token);
+    this.setState({ loggedIn });
   }
 
   render() {
@@ -15,19 +36,19 @@ class Signup extends React.Component {
     return (
       <>
         <h1 className={styles.heading}>Sign Up</h1>
-        <form method="POST" className={styles.form}>
+        <form method="POST" className={styles.form} ref={this.formRef}>
           <label className={styles.form__label}>Name
-              <input type="text" name="name" className={styles.form__input}></input>
-            </label>
-            <label className={styles.form__label}>Email
-              <input type="email" name="email" className={styles.form__input}></input>
-            </label>
-            <label className={styles.form__label}>Password
-              <input type="password" name="password" className={styles.form__input}></input>
-            </label>
-            <button type="submit" className={[styles.button,styles.active].join(' ')}>Sign Up</button>
-          </form>
-        </>
+            <input type="text" name="name" className={styles.form__input}></input>
+          </label>
+          <label className={styles.form__label}>Email
+            <input type="email" name="email" className={styles.form__input}></input>
+          </label>
+          <label className={styles.form__label}>Password
+            <input type="password" name="password" className={styles.form__input}></input>
+          </label>
+          <button type="submit" className={[styles.button, styles.active].join(' ')}>Sign Up</button>
+        </form>
+      </>
     )
   }
 }

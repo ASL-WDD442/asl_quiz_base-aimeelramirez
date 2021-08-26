@@ -107,9 +107,9 @@ exports.updateUser = async (req, res) => {
 
 
 exports.createUser = async (req, res) => {
-    const { username, password } = req.body;
+    const { username, password, name } = req.body;
     try {
-        const newChoice = await Users.createAUser({ username, password, access_token, type })
+        const newChoice = await Users.createAUser({ name, username, password, access_token, type })
         res.json({ id: newChoice });
     } catch (e) {
         const errors = e.errors.map((err) => err.message);
