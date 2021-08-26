@@ -30,7 +30,7 @@ export default function container(Component) {
         return sendQuiz;
       } else {
         const sendQuiz = await API.put(`/quizzes/${quiz.id}`, { quiz: quiz });
-        console.log(sendQuiz)
+        //console.log(sendQuiz)
         return sendQuiz;
       }
     }

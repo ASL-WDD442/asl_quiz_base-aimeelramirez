@@ -17,9 +17,10 @@ export default function container(Component) {
 
     verifyGoogleCode = async (code) => {
       const data = await API.post('/auth/google', { code, url: process.env.REACT_APP_CALLBACK_URL });
-      localStorage.setItem('token', token);
-      localStorage.setItem('data', JSON.stringify(data));
+      // localStorage.setItem('data', JSON.stringify(data));
       let token = data.token;
+      localStorage.setItem('token', token);
+      console.log(token)
       let loggedIn = true;
       this.setState({ loggedIn });
     }
