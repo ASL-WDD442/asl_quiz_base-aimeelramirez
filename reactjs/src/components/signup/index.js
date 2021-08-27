@@ -23,7 +23,7 @@ class Signup extends React.Component {
   // componentDidMount() {
 
   // }
-
+  //TODO:  get the userId to be stored to read on update signin user if logging out.
   signUp = async (e) => {
     e.preventDefault();
     console.log(this.formRef.current);
@@ -34,6 +34,7 @@ class Signup extends React.Component {
     })
     let user = { name: filterInput[0].value, email: filterInput[1].value, password: filterInput[2].value }
     const { token, loggedIn } = await API.post('/auth/signup', user);
+    //TODO:set userId to localStorage.
     localStorage.setItem('token', token);
     console.log(user)
     this.setState({ loggedIn });
