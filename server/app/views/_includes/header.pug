@@ -1,14 +1,15 @@
-head 
- link(rel='stylesheet', type='text/css', href="/index.css")
+include head
+link(rel='stylesheet', href='/index.css', type='text/css')
 
 header.header
     .header__container
         h1
-            a.header__brand(href="/") Lyrical Quiz
+             a.header__brand(href="/") Lyrical Quiz
+
         .links
             if loggedIn
-                a.header__link(href="/admin/quizzes/list") Dashboard
-                a.header__link(href="/admin/quizzes/new") Create a new quiz
+                //- a.header__link(href="/admin/quizzes/list") Dashboard
+                //- a.header__link(href="/admin/quizzes/new") Create a new quiz
                 a.header__link(href="/logout") Logout
             else
                 a.header__link(href="/signup") Sign Up

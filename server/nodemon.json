@@ -1,0 +1,8 @@
+{
+  "env": {
+    "DEBUG": "server:*",
+    "SECRET": "_ztaeQQn9untSb4xix1eZlyS",
+    "CLIENT_ID": "418221369738-4gsvb5ahvmavko9f3rucehvkkh4d1rm3.apps.googleusercontent.com",
+    "CALLBACK_URL": "http://localhost:3000/google/callback"
+  }
+}

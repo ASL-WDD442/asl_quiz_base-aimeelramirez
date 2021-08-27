@@ -1,5 +1,6 @@
 const router = require('express').Router()
 const choicesController = require('../controllers/choices')
+const protectedRoute = require('../utils/protectedRoute');
 
 router.get('/', choicesController.getAll)
 router.get('/:id', choicesController.getOneById)

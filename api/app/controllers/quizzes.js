@@ -10,11 +10,11 @@ exports.getAll = async (req, res) => {
 
 exports.getPublic = async (req, res) => {
     const quizzes = await Quizzes.findAll({ where: { type: 'public' } });
-
     res.json(quizzes);
 };
 
 exports.getOneById = async ({ params: { id } }, res) => {
+    // console.log("This is get one ", id)
     const quiz = await Quizzes.findByPk(id);
     if (!quiz) {
         res.sendStatus(404);
@@ -30,8 +30,9 @@ exports.deleteQuiz = async (req, res) => {
 
 exports.createQuiz = async (req, res) => {
     const { name, type } = req.body;
+
     try {
-        const newQuiz = await Quizzes.create({ name, type, userId: req.userId });
+        const newQuiz = await Quizzes.create({ name, type });
         res.json({ id: newQuiz.id });
     } catch (e) {
         const errors = e.errors.map((err) => err.message);
@@ -41,15 +42,21 @@ exports.createQuiz = async (req, res) => {
 
 exports.updateQuiz = async (req, res) => {
     const { id } = req.params;
+    console.log("REQ update quiz:", req.body)
     try {
         const [, [updatedQuiz]] = await Quizzes.update(req.body, {
             where: { id },
             returning: true,
         });
+        console.log("REQ update quiz:", [, [updatedQuiz]])
+
         res.json(updatedQuiz);
-    } catch (e) {
-        const errors = e.errors.map((err) => err.message);
-        res.sendStatus(400).json({ errors });
+    } catch (err) {
+        // const errors = e.errors.map((err) => err.message);
+        // res.sendStatus(400).json({ errors });
+        console.log(err);
+        res.sendStatus(500);
+        return;
     }
 };
 

@@ -2,6 +2,8 @@ extends ../_layout
 include ../_includes/link_mixin
 block content
     h1.heading= id ? 'Edit Quiz' : 'New Quiz'
+    input.form__input(type="hidden", name="userId", value=userId)
+
     form.form(method="POST")
         label.form__label Quiz Name
             input.form__input(type="text", name="name", value=name)

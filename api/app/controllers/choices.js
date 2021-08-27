@@ -28,6 +28,7 @@ exports.getOneById = async ({ params: { id } }, res) => {
 }
 exports.createChoice = async (req, res) => {
     const { value, type, questionId } = req.body;
+
     try {
         const newChoice = await Choices.create({ value, type, questionId });
         res.json({ id: newChoice.id });
