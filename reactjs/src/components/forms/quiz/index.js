@@ -34,9 +34,9 @@ class QuizForm extends React.Component {
     const { quiz: { id, userId }, saveQuiz, history } = this.props;
 
     let filterInput = [...this.radioRef.current.children];
-    filterInput = filterInput.filter((item) => {
-      if (item.type === "radio") return item;
-
+    filterInput = filterInput.filter(item => {
+      if (item.type !== "radio") return null;
+      return item;
     })
     const { name, type = filterInput[0].checked ? filterInput[0].value : filterInput[1].value } = this.state;
     if (id !== void 0) {

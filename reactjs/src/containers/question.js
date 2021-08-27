@@ -5,6 +5,7 @@ import API from '../API';
 
 export default function container(Component) {
   return class QuestionContainer extends React.Component {
+
     state = {
       question: {},
       choices: [],
@@ -34,7 +35,9 @@ export default function container(Component) {
     }
 
     render() {
-      const { question, choices } = this.state;
+      const { question, choices, userId } = this.state;
+      console.log("UserID on Questions:", userId)
+
       return (
         <Component
           {...this.props}

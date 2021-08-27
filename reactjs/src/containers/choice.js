@@ -26,7 +26,8 @@ export default function container(Component) {
     }
 
     render() {
-      const { choice } = this.state;
+      const { choice, userId } = this.state;
+      console.log("UserID on Choices:", userId)
       return (
         <Component
           {...this.props}

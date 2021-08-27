@@ -27,6 +27,7 @@ export default function container(Component) {
 
     saveQuiz = async (quiz) => {
       if (quiz.id === void 0) {
+        console.log(quiz)
         const sendQuiz = await API.post('/quizzes', { quiz: quiz });
         return sendQuiz;
       } else {

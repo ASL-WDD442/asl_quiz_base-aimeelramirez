@@ -14,6 +14,7 @@ class Header extends React.Component {
 
   render() {
     const { loggedIn } = this.props;
+
     return (
       <header className={styles.header}>
         <div className={styles.header__container}>

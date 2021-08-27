@@ -9,9 +9,13 @@ export default function container(Component) {
       userQuizzes: [],
       publicQuizzes: [],
     }
-    //TODO get the route to only path on  console.log(await req.API.get(`/quizzes?userId=${userId}`));
     fetchUserQuizzes = async () => {
-      const userQuizzes = await API.get('/quizzes');
+      let userId = localStorage.getItem('userId');
+      let userQuizzes = await API.get(`/quizzes/?userId=${userId}`);
+      userQuizzes = userQuizzes.filter(user => {
+        if (userId !== user.userId) return null;
+        return user;
+      })
       this.setState({ userQuizzes });
     }
 

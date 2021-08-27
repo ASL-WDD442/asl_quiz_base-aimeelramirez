@@ -1,5 +1,6 @@
 const router = require('express').Router()
 const authsController = require('../controllers/auths')
+const protectedRoute = require('../utils/protectedRoute')
 
 router.get('/', authsController.getAll)
 router.get('/:id', authsController.getOneById)

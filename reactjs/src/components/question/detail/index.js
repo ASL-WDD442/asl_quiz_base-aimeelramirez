@@ -20,8 +20,7 @@ class QuestionDetail extends React.Component {
     const { question, choices } = this.props;
     let showButton = "";
     if (choices.length !== 0) {
-      console.log(choices)
-      showButton = <span> <a title='Delete' icon='fa-trash' className='link  linkSecondary' id='disabled' /></span>
+      showButton = null;
     } else {
       console.log(choices)
       showButton = <span role="presentation" onClick={this.delete}> <Link url={'/admin/quizzes/' + question.quizId} title='Delete' icon='fa-trash' className='link linkSecondary' /> </span>

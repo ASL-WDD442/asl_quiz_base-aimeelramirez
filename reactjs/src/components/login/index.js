@@ -67,8 +67,6 @@ class Login extends React.Component {
   }
   loginHandle = async (e) => {
     e.preventDefault();
-
-
     let username = this.state.email;
     let password = this.state.password;
 
@@ -76,15 +74,25 @@ class Login extends React.Component {
       email: username,
       password: password
     })
-    // console.log("api: RES ", apiResponse.user)
+    console.log("api: RES ", apiResponse)
 
-    localStorage.setItem('token', apiResponse.token);
-    localStorage.setItem('userId', apiResponse.user.id);
-    this.setState({
-      loggedIn: true
-    });
-    if (this.state.loggedIn) {
-      return <Redirect to="/admin/quizzes" /> && window.location.reload();
+
+    if (apiResponse.loggedIn === false) {
+      console.log('User is not found.')
+      alert('User is not found.')
+    } else {
+
+      localStorage.setItem('token', apiResponse.token);
+      localStorage.setItem('userId', apiResponse.user.id);
+      let loggedIn = true;
+      this.props.history.push(loggedIn)
+
+      this.setState({
+        loggedIn: loggedIn
+      });
+      if (this.state.loggedIn) {
+        return <Redirect to="/admin/quizzes" /> && window.location.reload();
+      }
     }
 
 

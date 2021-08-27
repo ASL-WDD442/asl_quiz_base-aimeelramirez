@@ -1,8 +1,8 @@
-import https from 'https'
+// import https from 'https'
 import axios from 'axios'
 
 const API = axios.create({
-  baseURL: process.env.API_URL || 'http://localhost:4000'
+  baseURL: process.env.API_URL || 'https://localhost:4000'
 });
 
 API.interceptors.response.use(

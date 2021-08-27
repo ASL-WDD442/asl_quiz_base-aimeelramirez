@@ -9,8 +9,8 @@ const protectedRoute = (req, res, next) => {
 
     try {
         const { id } = jwt.verify(token, process.env.SECRET);
-        console.log("TOKEN: id", id)
-        req.userId = id;
+        if (id === userId) return req.userId = id;
+        req.token = token;
         return next();
     } catch (e) {
         return res.status(401).json({ loggedIn: false });

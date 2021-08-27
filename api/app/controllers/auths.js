@@ -32,7 +32,8 @@ exports.exchangeCode = async (req, res) => {
             type: 'type1',
         });
         const token = jwt.sign({ id: user.id }, process.env.SECRET);
-        res.json({ token, loggedIn: true });
+        let id = user.id;
+        res.json({ id, token, loggedIn: true });
     } catch (e) {
         error(e);
         res.status(401).json({ loggedIn: false });
@@ -57,18 +58,18 @@ exports.registerUser = async (req, res) => {
 exports.loginUser = async (req, res) => {
     const { email, password } = req.body;
     const [user] = await Users.findAll({ where: { username: email } });
-    if (user) {
 
-        bcrypt.compare(password, user.password, (err, result) => {
-            if (result) {
-                const token = jwt.sign({ id: user.id }, process.env.SECRET);
-                console.log("SIGNING IN api", user.id)
-                return res.json({ token, loggedIn: true, user });
-            } else {
-                res.json({ loggedIn: false, error: 'Invalid credentials!' });
-            }
-        });
-    }
+    bcrypt.compare(password, user.password, (err, result) => {
+        if (result) {
+            const token = jwt.sign({ id: user.id }, process.env.SECRET);
+            console.log("SIGNING IN api", result)
+
+            return res.json({ token, loggedIn: true, user });
+        } else {
+            res.json({ loggedIn: false, error: 'Invalid credentials!' });
+        }
+    });
+
     // } else {
     //     res.json({ loggedIn: false, error: 'No user found!' });
     // }

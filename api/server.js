@@ -9,11 +9,11 @@ const app = require('./app')
 const port = process.env.PORT || 4000
 // start server and log port its running on
 // // ssl
-// const server = https.createServer(options, app);
-// server.listen(port, () => {
-//     log(`Server listening on port ${port}!`)
+const server = https.createServer(options, app);
+server.listen(port, () => {
+    log(`Server listening on port ${port}!`)
 
-// });
+});
 
 
-app.listen(port, () => log(`API listening on port ${port}!`))
+// app.listen(port, () => log(`API listening on port ${port}!`))

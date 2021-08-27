@@ -11,14 +11,21 @@ class Landing extends React.Component {
   }
 
   render() {
-    const { publicQuizzes } = this.props;
+    const { publicQuizzes, loggedIn } = this.props;
+    console.log("CHECK Public ==> ", loggedIn);
+    let buttonCreateQuiz = "";
+    if (loggedIn) {
+      buttonCreateQuiz = <Link url='/admin/quizzes/new' title='Create Your Own Quiz' icon='' className='button primary' />
+    } else {
+      buttonCreateQuiz = null
+    }
     return (
       <>
         <h2 className={styles.heading}>Welcome to Lyrical Trivia!</h2>
         <h2 className={styles.headingSecondary}>Want to play a lyrical trivia?</h2>
         <p>Check out the quizzes created by others below for a challenging and fun experience</p>
         <h2 className={styles.headingSecondary}>Want to test your friend's knowledge?</h2>
-        <Link url='/admin/quizzes/new' title='Create Your Own Quiz' icon='' className='button primary' />
+        {buttonCreateQuiz}
         <h1 className={styles.heading}>Public Quizzes</h1>
         <ul className={styles.list}>
           {publicQuizzes.map(quiz => (
@@ -28,7 +35,7 @@ class Landing extends React.Component {
             </li>
           ))}
         </ul>
-        <Link url='/admin/quizzes/new' title='Create Your Own Quiz' icon='' className='button primary' />
+        {buttonCreateQuiz}
       </>
     );
   }

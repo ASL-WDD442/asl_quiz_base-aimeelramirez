@@ -17,12 +17,17 @@ export default function container(Component) {
 
     verifyGoogleCode = async (code) => {
       const data = await API.post('/auth/google', { code, url: process.env.REACT_APP_CALLBACK_URL });
-      // localStorage.setItem('data', JSON.stringify(data));
+      // console.log("data==> ", data);
+      //set items 
       let token = data.token;
-      localStorage.setItem('token', token);
-      console.log(token)
+      let userId = data.id;
       let loggedIn = true;
+      //i could have stored it in stringify object but to read it easier.
+      localStorage.setItem('token', token);
+      localStorage.setItem('userId', userId);
       this.setState({ loggedIn });
+      //headers to load if that to update.
+      return this.state.loggedIn && window.location.reload();
     }
 
 
