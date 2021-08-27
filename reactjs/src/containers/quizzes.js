@@ -9,8 +9,10 @@ export default function container(Component) {
       userQuizzes: [],
       publicQuizzes: [],
     }
-    fetchUserQuizzes = async () => {
-      let userId = localStorage.getItem('userId');
+    fetchUserQuizzes = async (userId) => {
+      console.log(this.props)
+      userId = this.props.location.state.userId;
+      // let userId = localStorage.getItem('userId');
       let userQuizzes = await API.get(`/quizzes/?userId=${userId}`);
       userQuizzes = userQuizzes.filter(user => {
         if (userId !== user.userId) return null;

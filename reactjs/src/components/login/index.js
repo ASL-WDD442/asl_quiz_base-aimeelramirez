@@ -12,7 +12,6 @@ class Login extends React.Component {
     super(props);
     this.formRef = createRef();
     this.state = {
-      formRef: null,
       email: "",
       password: "",
       loggedIn: !!localStorage.getItem('token')
@@ -83,15 +82,16 @@ class Login extends React.Component {
     } else {
 
       localStorage.setItem('token', apiResponse.token);
-      localStorage.setItem('userId', apiResponse.user.id);
-      let loggedIn = true;
-      this.props.history.push(loggedIn)
-
+      // localStorage.setItem('userId', apiResponse.user.id);
       this.setState({
-        loggedIn: loggedIn
+        loggedIn: true
       });
       if (this.state.loggedIn) {
-        return <Redirect to="/admin/quizzes" /> && window.location.reload();
+        //this.props = { userId: apiResponse.user.id, loggedIn: true }
+        const { userId = apiResponse.user.id } = this.props;
+        this.props.history.push("/admin/quizzes", { loggedIn: true, userId: userId })
+        return <Redirect to="/admin/quizzes" /> && window.location.reload()
+
       }
     }
 
@@ -99,6 +99,7 @@ class Login extends React.Component {
   }
   render() {
     const { loggedIn } = this.props;
+    console.log(this.props)
     if (loggedIn) return <Redirect to="/admin/quizzes" />
     return (
       <>

@@ -15,11 +15,11 @@ API.interceptors.response.use(
 API.interceptors.request.use(async (config) => {
   if (localStorage.getItem('token')) {
     const token = localStorage.getItem('token')
-    const userId = localStorage.getItem('userId')
+    // const userId = localStorage.getItem('userId')
 
     return {
       ...config,
-      headers: { common: { token, userId } },
+      headers: { common: { token } },
     };
   }
   else {
