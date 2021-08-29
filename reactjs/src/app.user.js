@@ -1,18 +1,13 @@
-//example to find user id if that to be set.
-import container from './containers/quizzes';
-
-
-/*probably not the best way but with export of container to 
-return class <Component> extends React.Component*/
+//example to find user id if that to be set in storing.
+import jwt_decode from "jwt-decode";
+import API from './API';
 
 const exampleLiftingState = async () => {
     let checkLogged = !!localStorage.getItem('token');
     if (checkLogged) {
-        let LoggedUser = container();
-        // getting the method in  container() return QuizzesContainer  
-        let findUser = new LoggedUser({ 'userId': '', "type": "", loggedIn: !!localStorage.getItem('token') })
-        //dealing with promises if broken
-        let readStateUser = await findUser.fetchUserId();
+        let user = jwt_decode(localStorage.getItem('token'))
+        const apiResponse = await API.get(`/auth/${user.id}`);
+        let readStateUser = { userId: apiResponse.id, type: apiResponse.type };
         console.log("Application User:", readStateUser)
         return readStateUser;
     }

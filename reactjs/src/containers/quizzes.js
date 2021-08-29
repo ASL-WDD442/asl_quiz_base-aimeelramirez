@@ -2,7 +2,6 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 import API from '../API';
-import jwt_decode from "jwt-decode";
 import exampleLiftingState from '../app.user';
 export default function container(Component, props) {
   return class QuizzesContainer extends React.Component {
@@ -34,17 +33,6 @@ export default function container(Component, props) {
       let userId = this.state.userId;
       this.setState({ publicQuizzes, userId });
     }
-    // example of lifting state on pure component
-    fetchUserId = async () => {
-      //user is always sorted here after google auth or local auth.
-      let user = jwt_decode(localStorage.getItem('token'))
-      const apiResponse = await API.get(`/auth/${user.id}`);
-      // console.log("Fetch user id from quizzes container: ", apiResponse);
-      // this.setState({ userId: apiResponse.id, type: apiResponse.type })
-      return { userId: apiResponse.id, type: apiResponse.type }
-    }
-
-
     render() {
       const { userQuizzes, publicQuizzes, userId } = this.state;
       // console.log("State on Quizzes: ", userId)
