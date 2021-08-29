@@ -4,16 +4,24 @@ import RRPropTypes from 'react-router-prop-types';
 import { Link } from 'react-router-dom';
 import styles from './styles.module.css';
 import AuthContainer from '../../containers/auth';
+import jwt_decode from "jwt-decode";
 
 class Header extends React.Component {
+
   logUserOut = () => {
     const { logout, history } = this.props;
     logout();
+
     history.push('/');
+
   }
 
   render() {
-    const { loggedIn } = this.props;
+    // let user = jwt_decode(localStorage.getItem('token'))
+    let user = "";
+    const { loggedIn, userId } = this.props;
+    // console.log("Header", this.props)
+    console.log("Header", userId)
 
     return (
       <header className={styles.header}>

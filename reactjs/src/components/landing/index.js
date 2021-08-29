@@ -6,13 +6,17 @@ import QuizzesContainer from '../../containers/quizzes';
 
 class Landing extends React.Component {
   componentDidMount() {
-    const { fetchPublicQuizzes } = this.props;
+    const { fetchPublicQuizzes, fetchUserId } = this.props;
     fetchPublicQuizzes();
+    let getId = fetchUserId();
+    console.log(getId)
   }
 
+
   render() {
-    const { publicQuizzes, loggedIn } = this.props;
-    console.log("CHECK Public ==> ", loggedIn);
+    const { publicQuizzes, loggedIn, userId } = this.props;
+
+    console.log("CHECK Public ==> ", this.props);
     let buttonCreateQuiz = "";
     if (loggedIn) {
       buttonCreateQuiz = <Link url='/admin/quizzes/new' title='Create Your Own Quiz' icon='' className='button primary' />
@@ -20,7 +24,7 @@ class Landing extends React.Component {
       buttonCreateQuiz = null
     }
     return (
-      <>
+      <>UserID:{userId}
         <h2 className={styles.heading}>Welcome to Lyrical Trivia!</h2>
         <h2 className={styles.headingSecondary}>Want to play a lyrical trivia?</h2>
         <p>Check out the quizzes created by others below for a challenging and fun experience</p>
@@ -44,6 +48,9 @@ class Landing extends React.Component {
 Landing.propTypes = {
   publicQuizzes: PropTypes.arrayOf(PropTypes.object),
   fetchPublicQuizzes: PropTypes.func.isRequired,
+  fetchUserId: PropTypes.func,
+  userId: PropTypes.string,
+
 };
 
 Landing.defaultProps = {

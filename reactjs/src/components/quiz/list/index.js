@@ -6,8 +6,8 @@ import QuizzesContainer from '../../../containers/quizzes';
 
 class QuizList extends React.Component {
   componentDidMount() {
-    const { fetchUserQuizzes, userId } = this.props;
-    fetchUserQuizzes(userId);
+    const { fetchUserQuizzes } = this.props;
+    fetchUserQuizzes();
   }
 
   render() {

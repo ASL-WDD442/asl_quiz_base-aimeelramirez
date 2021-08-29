@@ -18,21 +18,21 @@ class QuestionDetail extends React.Component {
 
   render() {
     const { question, choices } = this.props;
-    // let showButton = "";
-    // if (choices.length !== 0) {
-    //   showButton = null;
-    // } else {
-    //   console.log(choices)
-    //   showButton = <span role="presentation" onClick={this.delete}> <Link url={'/admin/quizzes/' + question.quizId} title='Delete' icon='fa-trash' className='link linkSecondary' /> </span>
+    let showButton = "";
+    if (choices.length !== 0) {
+      showButton = null;
+    } else {
+      console.log(choices)
+      showButton = <span role="presentation" onClick={this.delete}> <Link url={'/admin/quizzes/' + question.quizId} title='Delete' icon='fa-trash' className='link linkSecondary' /> </span>
 
-    // }
+    }
     return (
       <div>
         <div className={styles.heading}>
           <span>{question.title}</span>
           <span>
             <Link url={'/admin/questions/edit/' + question.id} title='Edit' icon='fa-edit' className='link' />
-            {choices.length === 0 ? null : <span role="presentation" onClick={this.delete}> <Link url={'/admin/quizzes/' + question.quizId} title='Delete' icon='fa-trash' className='link linkSecondary' /> </span>}
+            {showButton}
           </span>
           <div>
             <h2 className={styles.headingSecondary}>Choices</h2>

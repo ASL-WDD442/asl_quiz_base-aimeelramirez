@@ -32,7 +32,8 @@ class QuizForm extends React.Component {
   save = async (event) => {
     event.preventDefault();
     const { quiz: { id, userId }, saveQuiz, history } = this.props;
-
+    let newerId = localStorage.getItem('userId');
+    // let userId = history.location.state.userId;
     let filterInput = [...this.radioRef.current.children];
     filterInput = filterInput.filter(item => {
       if (item.type !== "radio") return null;
@@ -46,9 +47,7 @@ class QuizForm extends React.Component {
       history.push(`/admin/quizzes/${id}`);
 
     } else {
-      let userId = localStorage.getItem('userId');
-      console.log(userId)
-      const data = await saveQuiz({ name, type, userId });
+      const data = await saveQuiz({ name, type, userId: newerId });
       console.log(data);
       history.push(`/admin/quizzes/${data.id}`);
 

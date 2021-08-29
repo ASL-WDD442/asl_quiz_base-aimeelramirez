@@ -12,6 +12,8 @@ export default function container(Component) {
     //TODO get the route to only path on  console.log(await req.API.get(`/quizzes?userId=${userId}`));
 
     fetchQuiz = async (id) => {
+      console.log("Fetch quiz: ", this.props)
+
       // const quizzes = await API.get(`/quizzes`);
       const quiz = await API.get(`/quizzes/${id}`);
       const questions = await API.get(`/questions?quizId=${id}`)
@@ -27,10 +29,12 @@ export default function container(Component) {
 
     saveQuiz = async (quiz) => {
       if (quiz.id === void 0) {
-        console.log(quiz)
+        console.log(quiz.userId)
         const sendQuiz = await API.post('/quizzes', { quiz: quiz });
         return sendQuiz;
       } else {
+        console.log(quiz.userId)
+
         const sendQuiz = await API.put(`/quizzes/${quiz.id}`, { quiz: quiz });
         // console.log(sendQuiz)
         return sendQuiz;
@@ -43,11 +47,12 @@ export default function container(Component) {
     }
 
     render() {
-      const { quiz, questions } = this.state;
+      const { quiz, questions, userId } = this.state;
       return (
         <Component
           {...this.props}
           quiz={quiz}
+          userId={userId}
           questions={questions}
           fetchQuiz={this.fetchQuiz}
           saveQuiz={this.saveQuiz}

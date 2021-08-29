@@ -19,7 +19,7 @@ API.interceptors.request.use(async (config) => {
 
     return {
       ...config,
-      headers: { common: { token } },
+      headers: { authorization: `Bearer ${token}` },
     };
   }
   else {

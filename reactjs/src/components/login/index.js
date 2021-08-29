@@ -5,6 +5,8 @@ import { Redirect } from 'react-router-dom';
 import styles from './styles.module.css';
 import AuthContainer from '../../containers/auth';
 import API from './../../API';
+import { GlobalStateProvider } from './../../store';
+import jwt_decode from "jwt-decode";
 
 
 class Login extends React.Component {
@@ -14,8 +16,8 @@ class Login extends React.Component {
     this.state = {
       email: "",
       password: "",
-      loggedIn: !!localStorage.getItem('token')
-
+      loggedIn: !!localStorage.getItem('token'),
+      userId: ""
 
     }
 
@@ -27,6 +29,7 @@ class Login extends React.Component {
       location,
       verifyGoogleCode
     } = this.props;
+
     const queryParams = new URLSearchParams(location.search);
     const code = queryParams.get('code');
     if (code) verifyGoogleCode(code);
@@ -44,7 +47,6 @@ class Login extends React.Component {
 
   validateEmptyForm = (e) => {
     e.preventDefault();
-
     const formRef = this.formRef;
     if (formRef.current[0].value !== "" && formRef.current[0].value.length > 4) {
       this.setState({
@@ -80,27 +82,40 @@ class Login extends React.Component {
       console.log('User is not found.')
       alert('User is not found.')
     } else {
-
+      let userId = apiResponse.user.id;
+      console.log("USER ID:", userId)
       localStorage.setItem('token', apiResponse.token);
       // localStorage.setItem('userId', apiResponse.user.id);
       this.setState({
-        loggedIn: true
+        loggedIn: true,
+        userId: apiResponse.user.id
       });
       if (this.state.loggedIn) {
+        console.log("This state in login:", this.state)
         //this.props = { userId: apiResponse.user.id, loggedIn: true }
-        const { userId = apiResponse.user.id } = this.props;
-        this.props.history.push("/admin/quizzes", { loggedIn: true, userId: userId })
-        return <Redirect to="/admin/quizzes" /> && window.location.reload()
+        //this.props.history.push("/admin/quizzes", { loggedIn: true, userId: apiResponse.user.id })
+        return <Redirect to="/" />
 
       }
     }
 
 
   }
+  fetchUserId = async () => {
+    let user = jwt_decode(localStorage.getItem('token'))
+    const apiResponse = await API.get(`/auth/${user.id}`);
+    console.log("Fetch user id: ", apiResponse);
+    return apiResponse;
+  }
+
   render() {
     const { loggedIn } = this.props;
-    console.log(this.props)
-    if (loggedIn) return <Redirect to="/admin/quizzes" />
+    console.log("login/index.js", this.props)
+    if (loggedIn) {
+      return (
+        <Redirect to="/" />
+      )
+    }
     return (
       <>
         <h1 className={styles.heading}>Login</h1>
@@ -127,8 +142,12 @@ class Login extends React.Component {
 
 Login.propTypes = {
   loggedIn: PropTypes.bool,
+  userId: PropTypes.string,
   verifyGoogleCode: PropTypes.func.isRequired,
   location: RRPropTypes.location.isRequired,
+  fetchUserId: PropTypes.func.isRequired,
+
+
 };
 
 Login.defaultProps = {
