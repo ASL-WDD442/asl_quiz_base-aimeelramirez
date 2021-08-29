@@ -6,8 +6,8 @@ import AuthContainer from '../../containers/auth';
 import API from './../../API';
 
 class Signup extends React.Component {
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
     this.formRef = createRef();
     this.state = {
       email: "",
@@ -29,18 +29,15 @@ class Signup extends React.Component {
     })
     let user = { name: filterInput[0].value, email: filterInput[1].value, password: filterInput[2].value }
     const { token, loggedIn, userId } = await API.post('/auth/signup', user);
-    //TODO:set userId to localStorage. is there a safer way?
     localStorage.setItem('token', token);
-    localStorage.setItem('userId', user.id);
-
-    console.log(user)
+    console.log('userId on sign up :', userId)
+    console.log(loggedIn)
     this.setState({ loggedIn });
     return window.location.reload();
   }
 
   render() {
     const { loggedIn } = this.props;
-    //TODO get the route to only path on  console.log(await req.API.get(`/quizzes?userId=${userId}`));
     if (loggedIn) return <Redirect to="/admin/quizzes" />
     return (
       <>

@@ -5,25 +5,19 @@ import { Redirect } from 'react-router-dom';
 import styles from './styles.module.css';
 import AuthContainer from '../../containers/auth';
 import API from './../../API';
-import { GlobalStateProvider } from './../../store';
-import jwt_decode from "jwt-decode";
-
 
 class Login extends React.Component {
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
     this.formRef = createRef();
     this.state = {
       email: "",
       password: "",
       loggedIn: !!localStorage.getItem('token'),
-      userId: ""
-
+      userId: undefined
     }
 
   }
-
-
   componentDidMount() {
     const {
       location,
@@ -34,6 +28,7 @@ class Login extends React.Component {
     const code = queryParams.get('code');
     if (code) verifyGoogleCode(code);
   }
+
 
   redirectToGoogle = () => {
     let GOOGLE_URL = 'https://accounts.google.com/o/oauth2/v2/auth?';
@@ -75,46 +70,37 @@ class Login extends React.Component {
       email: username,
       password: password
     })
+    //read the response after sent body
     console.log("api: RES ", apiResponse)
-
-
     if (apiResponse.loggedIn === false) {
       console.log('User is not found.')
+      //alert not the best way but gets the error to see if not console
       alert('User is not found.')
     } else {
       let userId = apiResponse.user.id;
-      console.log("USER ID:", userId)
+      //set token only
       localStorage.setItem('token', apiResponse.token);
-      // localStorage.setItem('userId', apiResponse.user.id);
+
       this.setState({
         loggedIn: true,
-        userId: apiResponse.user.id
+        userId: userId,
+        type: apiResponse.user.type
       });
-      if (this.state.loggedIn) {
-        console.log("This state in login:", this.state)
-        //this.props = { userId: apiResponse.user.id, loggedIn: true }
-        //this.props.history.push("/admin/quizzes", { loggedIn: true, userId: apiResponse.user.id })
-        return <Redirect to="/" />
 
+      if (this.state.loggedIn && apiResponse.user.type === 'type2') {
+        return <Redirect to="/admin/quizzes" /> && window.location.reload();
       }
+      // if (this.state.loggedIn && apiResponse.user.type === 'type1') {
+      //   return <Redirect to="/admin/quizzes" />
+      // }
     }
 
-
-  }
-  fetchUserId = async () => {
-    let user = jwt_decode(localStorage.getItem('token'))
-    const apiResponse = await API.get(`/auth/${user.id}`);
-    console.log("Fetch user id: ", apiResponse);
-    return apiResponse;
   }
 
   render() {
     const { loggedIn } = this.props;
-    console.log("login/index.js", this.props)
     if (loggedIn) {
-      return (
-        <Redirect to="/" />
-      )
+      return <Redirect to="/admin/quizzes" />
     }
     return (
       <>
@@ -145,7 +131,7 @@ Login.propTypes = {
   userId: PropTypes.string,
   verifyGoogleCode: PropTypes.func.isRequired,
   location: RRPropTypes.location.isRequired,
-  fetchUserId: PropTypes.func.isRequired,
+  fetchUserId: PropTypes.func,
 
 
 };

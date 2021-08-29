@@ -6,8 +6,8 @@ import Link from '../../link';
 import ChoiceContainer from '../../../containers/choice';
 
 class ChoiceForm extends React.Component {
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
     this.state = {
       value: undefined,
       type: undefined,
@@ -48,7 +48,7 @@ class ChoiceForm extends React.Component {
     const { choice: { id, value: defaultValue = '', type: defaultType = 'correct', questionId } } = this.props;
     const { value = defaultValue, type = defaultType } = this.state;
 
-    return(
+    return (
       <>
         <h1 className={styles.heading}>{id ? 'Edit Choice' : 'New Choice'}</h1>
         {id && (
@@ -92,8 +92,8 @@ class ChoiceForm extends React.Component {
               <span>Incorrect</span>
             </label>
           </label>
-          <button type="submit" className={[styles.button,styles.active].join(' ')}>{id ? 'Save Choice' : 'Create Choice'}</button>
-        </form>  
+          <button type="submit" className={[styles.button, styles.active].join(' ')}>{id ? 'Save Choice' : 'Create Choice'}</button>
+        </form>
       </>
     )
   }

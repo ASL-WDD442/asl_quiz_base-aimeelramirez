@@ -5,8 +5,8 @@ import styles from '../styles.module.css';
 import QuestionContainer from '../../../containers/question';
 
 class QuestionForm extends React.Component {
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
     this.state = {
       name: undefined,
       type: undefined,
@@ -42,7 +42,7 @@ class QuestionForm extends React.Component {
     const { question: { id, title: defaultTitle = '' } } = this.props;
     const { title = defaultTitle } = this.state;
 
-    return(
+    return (
       <>
         <h1 className={styles.heading}>{id ? 'Edit Question' : 'New Question'}</h1>
         <form method="POST" className={styles.form} onSubmit={this.save}>
@@ -55,8 +55,8 @@ class QuestionForm extends React.Component {
               className={styles.form__input}
               onChange={this.handleInputChange} />
           </label>
-          <button type="submit" className={[styles.button,styles.active].join(' ')}>{title ? 'Save Question' : 'Create Question'}</button>
-        </form>  
+          <button type="submit" className={[styles.button, styles.active].join(' ')}>{title ? 'Save Question' : 'Create Question'}</button>
+        </form>
       </>
     )
   }

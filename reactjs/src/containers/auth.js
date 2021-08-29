@@ -2,31 +2,42 @@
 /* eslint-disable react/state-in-constructor */
 import React from 'react';
 import API from '../API';
-import jwt_decode from "jwt-decode";
 import { Redirect } from 'react-router-dom';
-
-export default function container(Component, props) {
-
+import exampleLiftingState from '../app.user';
+import LoggedUser from './../components/header/index';
+export default function container(Component) {
   class AuthContainer extends React.Component {
-    state = {
-      loggedIn: !!localStorage.getItem('token'),
-      userId: "",
-    }
-
-
-    logout = () => {
-      // localStorage.removeItem('token');
-      localStorage.clear();
-      // this.props.history.replace(window.location.pathname, { loggedIn: false, userId: null })
-      if (this.props.history.location.state && this.props.history.location.state.loggedIn) {
-        this.props.history.replace();
-        this.props.location.state = {}
-        console.log(this.props.location)
+    constructor() {
+      super();
+      this.state = {
+        loggedIn: !!localStorage.getItem('token'),
+        userId: "",
 
       }
-      this.setState({ loggedIn: false });
-      window.location.assign("https://www.google.com/accounts/logout?continue=https://appengine.google.com/_ah/logout?continue=https://localhost:3000/");
-      // window.open(`https://www.google.com/accounts/logout`);
+    }
+
+    logout = async () => {
+      let user = await exampleLiftingState();
+      let userType = user.type;
+      console.log(userType)
+      const { history } = this.props;
+      if (userType === 'type1') {
+        localStorage.clear();
+        this.setState({ loggedIn: false });
+        window.location.assign("https://www.google.com/accounts/logout?continue=https://appengine.google.com/_ah/logout?continue=https://localhost:3000/");
+        localStorage.clear();
+
+        history.replace();
+        this.props.location.state = {}
+        // return window.location.reload();
+
+      } else if (userType === 'type2') {
+        localStorage.clear();
+        history.replace();
+        this.props.location.state = {}
+        return window.location.reload();
+
+      }
 
     }
 
@@ -35,33 +46,22 @@ export default function container(Component, props) {
       console.log("data==> ", data);
       //set items 
       let token = data.token;
-
+      let userId = data.id;
       let loggedIn = true;
-      //i could have stored it in stringify object but to read it easier.
       localStorage.setItem('token', token);
-      // localStorage.setItem('userId', data.id);
-      //headers to load if that to update.
-      let userId = jwt_decode(localStorage.getItem('token'))
-      console.log("google code : ", code)
-
-      // props = { userId };
-      // this.props.history.push("/admin/quizzes", { loggedIn: true, userId: userId })
       //set state
-      this.setState({ loggedIn: true, userId: userId.id })
-      return <Redirect to="/" />
-
-      // window.location.reload()
-    }
-
-    fetchUserId = async () => {
-      if (this.state.loggedIn) {
-        let user = jwt_decode(localStorage.getItem('token'))
-        const apiResponse = await API.get(`/auth/${user.id}`);
-        console.log("Fetch user id: ", apiResponse);
-        return apiResponse;
+      if (token) {
+        this.setState({ loggedIn: loggedIn, userId: userId })
+        //if to see the header not refreshing...
+        let findUser = new LoggedUser({ loggedIn: !!localStorage.getItem('token') })
+        if (!findUser.loggedIn) {
+          window.location.reload()
+          return findUser
+        }
+        console.log("Auth: ", this.props)
+        return <Redirect to="/admin/quizzes" />
       }
     }
-
     render() {
       const { loggedIn, userId } = this.state;
       return (
@@ -78,3 +78,4 @@ export default function container(Component, props) {
   }
   return AuthContainer;
 }
+

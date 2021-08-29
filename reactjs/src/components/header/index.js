@@ -4,25 +4,37 @@ import RRPropTypes from 'react-router-prop-types';
 import { Link } from 'react-router-dom';
 import styles from './styles.module.css';
 import AuthContainer from '../../containers/auth';
-import jwt_decode from "jwt-decode";
 
 class Header extends React.Component {
-
+  constructor() {
+    super();
+    this.state = { loggedIn: !!localStorage.getItem('token') }
+  }
   logUserOut = () => {
     const { logout, history } = this.props;
     logout();
-
     history.push('/');
-
   }
-
   render() {
-    // let user = jwt_decode(localStorage.getItem('token'))
-    let user = "";
-    const { loggedIn, userId } = this.props;
-    // console.log("Header", this.props)
-    console.log("Header", userId)
+    const { loggedIn } = this.state;
 
+    let setHeader = ""
+    if (loggedIn) {
+      setHeader = (
+        <React.Fragment>
+          <Link to="/admin/quizzes" className={styles.header__link}>Dashboard</Link>
+          <Link to="/admin/quizzes/new" className={styles.header__link}>Create a new quiz</Link>
+          <button onClick={this.logUserOut} className={styles.header__link}>Logout</button>
+        </React.Fragment>
+      )
+    } else {
+      setHeader =
+        (<React.Fragment>
+          <Link to="/signup" className={styles.header__link}>Sign Up</Link>
+          <Link to="/login" className={styles.header__link}>Login</Link>
+        </React.Fragment>
+        )
+    }
     return (
       <header className={styles.header}>
         <div className={styles.header__container}>
@@ -30,19 +42,7 @@ class Header extends React.Component {
             <Link to="/" className={styles.header__brand}>Lyrical Trivia</Link>
           </h1>
           <div className={styles.links}>
-            {loggedIn && (
-              <React.Fragment>
-                <Link to="/admin/quizzes" className={styles.header__link}>Dashboard</Link>
-                <Link to="/admin/quizzes/new" className={styles.header__link}>Create a new quiz</Link>
-                <button onClick={this.logUserOut} className={styles.header__link}>Logout</button>
-              </React.Fragment>
-            )}
-            {!loggedIn && (
-              <React.Fragment>
-                <Link to="/signup" className={styles.header__link}>Sign Up</Link>
-                <Link to="/login" className={styles.header__link}>Login</Link>
-              </React.Fragment>
-            )}
+            {setHeader}
           </div>
         </div>
       </header>

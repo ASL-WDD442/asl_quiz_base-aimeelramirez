@@ -2,41 +2,41 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 import API from '../API';
-
+import exampleLiftingState from '../app.user';
+//to pass userId for example
 export default function container(Component) {
   return class QuizContainer extends React.Component {
-    state = {
-      quiz: {},
-      questions: [],
+    constructor(props) {
+      super(props);
+      this.state = {
+        quiz: {},
+        questions: [],
+        userId: ""
+      }
     }
-    //TODO get the route to only path on  console.log(await req.API.get(`/quizzes?userId=${userId}`));
-
     fetchQuiz = async (id) => {
-      console.log("Fetch quiz: ", this.props)
-
-      // const quizzes = await API.get(`/quizzes`);
+      let user = await exampleLiftingState();
+      let userId = user.userId;
       const quiz = await API.get(`/quizzes/${id}`);
       const questions = await API.get(`/questions?quizId=${id}`)
       if (questions) {
         questions.forEach(async (question) => {
           question.choices = await API.get(`/choices?questionId=${question.id}`);
         })
-        this.setState({ quiz, questions });
+        this.setState({ quiz, questions, userId });
       }
-      this.setState({ quiz });
+      this.setState({ quiz, userId });
 
     }
 
     saveQuiz = async (quiz) => {
       if (quiz.id === void 0) {
-        console.log(quiz.userId)
+        //passing in userId if empty
+        // console.log(quiz.userId)
         const sendQuiz = await API.post('/quizzes', { quiz: quiz });
         return sendQuiz;
       } else {
-        console.log(quiz.userId)
-
         const sendQuiz = await API.put(`/quizzes/${quiz.id}`, { quiz: quiz });
-        // console.log(sendQuiz)
         return sendQuiz;
       }
     }
@@ -48,6 +48,10 @@ export default function container(Component) {
 
     render() {
       const { quiz, questions, userId } = this.state;
+      // if (userId) {
+      //   //check the state of item quiz
+      //   console.log(this.state)
+      // }
       return (
         <Component
           {...this.props}
