@@ -2,7 +2,7 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 import API from '../API';
-import exampleLiftingState from '../app.user';
+import checkingUser from '../app.user';
 export default function container(Component, props) {
   return class QuizzesContainer extends React.Component {
     constructor() {
@@ -17,7 +17,7 @@ export default function container(Component, props) {
     }
 
     fetchUserQuizzes = async () => {
-      let user = await exampleLiftingState();
+      let user = await checkingUser();
       let userId = user.userId;
       let userQuizzes = await API.get(`/quizzes/?userId=${userId}`);
       userQuizzes = userQuizzes.filter(user => {

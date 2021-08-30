@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import styles from './styles.module.css';
 import Link from '../link';
 import QuizzesContainer from '../../containers/quizzes';
-import exampleLiftingState from '../../app.user';
+import checkingUser from '../../app.user';
 
 class Landing extends React.Component {
   constructor() {
@@ -15,11 +15,11 @@ class Landing extends React.Component {
   componentDidMount = async () => {
     const { fetchPublicQuizzes } = this.props;
     fetchPublicQuizzes();
-    this.setState({ user: await exampleLiftingState() })
+    this.setState({ user: await checkingUser() })
   }
   render() {
     //getting container for QuizzesContainer(Landing) 
-    //or could use exampleLiftingState or , fetchUserId
+    //or could use checkingUser or , fetchUserId
     const { publicQuizzes, loggedIn } = this.props;
     let buttonCreateQuiz = "";
     if (loggedIn) {

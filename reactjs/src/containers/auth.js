@@ -3,7 +3,7 @@
 import React from 'react';
 import API from '../API';
 import { Redirect } from 'react-router-dom';
-import exampleLiftingState from '../app.user';
+import checkingUser from '../app.user';
 import LoggedUser from './../components/header/index';
 export default function container(Component) {
   class AuthContainer extends React.Component {
@@ -17,7 +17,7 @@ export default function container(Component) {
     }
 
     logout = async () => {
-      let user = await exampleLiftingState();
+      let user = await checkingUser();
       let userType = user.type;
       console.log(userType)
       const { history } = this.props;

@@ -2,7 +2,7 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 import API from '../API';
-import exampleLiftingState from '../app.user';
+import checkingUser from '../app.user';
 //to pass userId for example
 export default function container(Component) {
   return class QuizContainer extends React.Component {
@@ -15,7 +15,7 @@ export default function container(Component) {
       }
     }
     fetchQuiz = async (id) => {
-      let user = await exampleLiftingState();
+      let user = await checkingUser();
       let userId = user.userId;
       const quiz = await API.get(`/quizzes/${id}`);
       const questions = await API.get(`/questions?quizId=${id}`)

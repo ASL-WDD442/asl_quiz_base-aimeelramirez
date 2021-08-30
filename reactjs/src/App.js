@@ -11,10 +11,8 @@ import QuestionDetail from './components/question/detail';
 import QuestionForm from './components/forms/question';
 import ChoiceForm from './components/forms/choice';
 import Quiz from './components/quiz';
-import exampleLiftingState from './app.user';
 
 function App() {
-  exampleLiftingState()
   return (
     <Router>
       <Route path='/' component={Header} />

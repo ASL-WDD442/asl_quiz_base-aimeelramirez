@@ -1,8 +1,8 @@
-//example to find user id if that to be set in storing.
+//example to find user id if that to be set.
 import jwt_decode from "jwt-decode";
 import API from './API';
 
-const exampleLiftingState = async () => {
+const checkingUser = async () => {
     let checkLogged = !!localStorage.getItem('token');
     if (checkLogged) {
         let user = jwt_decode(localStorage.getItem('token'))
@@ -13,4 +13,4 @@ const exampleLiftingState = async () => {
     }
 }
 //to read user if that to be not sent to headers for securing info
-export default exampleLiftingState;
+export default checkingUser;

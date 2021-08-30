@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import RRPropTypes from 'react-router-prop-types';
 import styles from '../styles.module.css';
 import QuizContainer from '../../../containers/quiz';
-import exampleLiftingState from '../../../app.user';
+import checkingUser from '../../../app.user';
 class QuizForm extends React.Component {
   constructor() {
     super();
@@ -57,7 +57,7 @@ class QuizForm extends React.Component {
     }
     if (!userId) {
       //set user if not created
-      let user = await exampleLiftingState();
+      let user = await checkingUser();
       userId = user.userId;
       await applyChanges(userId, id);
     } else {
