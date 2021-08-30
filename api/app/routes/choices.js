@@ -3,7 +3,7 @@ const choicesController = require('../controllers/choices')
 const protectedRoute = require('../utils/protectedRoute');
 
 router.get('/', protectedRoute, choicesController.getAll)
-router.get('/:id', choicesController.getOneById)
+router.get('/:id', protectedRoute, choicesController.getOneById)
 router.post('/', protectedRoute, choicesController.createChoice)
 router.put('/:id', protectedRoute, choicesController.updateChoice)
 router.delete('/:id', protectedRoute, choicesController.deleteChoice)

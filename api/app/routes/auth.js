@@ -3,12 +3,12 @@ const authsController = require('../controllers/auths')
 const protectedRoute = require('../utils/protectedRoute')
 
 router.get('/', protectedRoute, authsController.getAll)
-router.get('/:id', authsController.getOneById)
+router.get('/:id', protectedRoute, authsController.getOneById)
 // router.post('/signup', authsController.createUser)
 // router.post('/login', authsController.login)
-router.post('/exchange', authsController.createToken)
-router.put('/:id', authsController.updateUser)
-router.delete('/:id', authsController.deleteUser)
+router.post('/exchange', protectedRoute, authsController.createToken)
+router.put('/:id', protectedRoute, authsController.updateUser)
+router.delete('/:id', protectedRoute, authsController.deleteUser)
 
 
 router.post('/google', authsController.exchangeCode);
