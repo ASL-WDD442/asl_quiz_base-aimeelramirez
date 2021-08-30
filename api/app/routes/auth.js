@@ -2,7 +2,7 @@ const router = require('express').Router()
 const authsController = require('../controllers/auths')
 const protectedRoute = require('../utils/protectedRoute')
 
-router.get('/', authsController.getAll)
+router.get('/', protectedRoute, authsController.getAll)
 router.get('/:id', authsController.getOneById)
 // router.post('/signup', authsController.createUser)
 // router.post('/login', authsController.login)

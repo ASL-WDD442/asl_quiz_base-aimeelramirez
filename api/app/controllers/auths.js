@@ -58,29 +58,34 @@ exports.registerUser = async (req, res) => {
 exports.loginUser = async (req, res) => {
     const { email, password } = req.body;
     const [user] = await Users.findAll({ where: { username: email } });
+    if (user) {
+        bcrypt.compare(password, user.password, (err, result) => {
+            if (result) {
+                const token = jwt.sign({ id: user.id }, process.env.SECRET);
+                console.log("SIGNING IN api", result)
 
-    bcrypt.compare(password, user.password, (err, result) => {
-        if (result) {
-            const token = jwt.sign({ id: user.id }, process.env.SECRET);
-            console.log("SIGNING IN api", result)
+                return res.json({ token, loggedIn: true, user });
+            } else {
+                res.json({ loggedIn: false, error: 'Invalid credentials!' });
+            }
+        });
 
-            return res.json({ token, loggedIn: true, user });
-        } else {
-            res.json({ loggedIn: false, error: 'Invalid credentials!' });
-        }
-    });
-
-    // } else {
-    //     res.json({ loggedIn: false, error: 'No user found!' });
-    // }
+    } else {
+        res.json({ loggedIn: false, error: 'No user found!' });
+    }
 };
 
 
 
 exports.getAll = async (req, res) => {
     let users = await Users.findAll();
-    console.log('users==> ', users)
-    res.json(users)
+    if (users) {
+        console.log('users==> ', users)
+        res.json(users)
+    }
+    else {
+        res.json({ loggedIn: false, error: 'No user found!' });
+    }
 
 }
 
