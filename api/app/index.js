@@ -2,6 +2,8 @@
 const error = require('debug')('api:error');
 const express = require('express');
 const morganDebug = require('morgan-debug');
+const cors = require('cors');
+
 //routes
 const quizzesRouter = require('./routes/quizzes');
 const questionsRouter = require('./routes/questions');
@@ -13,6 +15,14 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(morganDebug('api:request', 'dev'));
+app.use((req, res, next) => {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization, Cookie");
+    next();
+})
+app.use(cors({ origin: true }));
+
 // set up to use router
 app.use('/quizzes', quizzesRouter);
 app.use('/questions', questionsRouter);

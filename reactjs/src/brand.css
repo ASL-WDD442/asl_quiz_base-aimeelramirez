@@ -1,0 +1,138 @@
+:root {
+  --active-color: #35a7ffff;
+  --primary-color: #6bf178ff;
+  --secondary-color: #ffe74cff;
+  --text-color: #333;
+  --light-text-color: #fdfdfd;
+  --background-color: #fff;
+  --border-color: #e6e6ea;
+  --secondary-background-color: #f4f4f8;
+  --error-color: #ff5964ff;
+  /* Aimee L Ramirez on Colors to change */
+  /* --minion-yellow: #ffe74cff;
+  --fiery-rose: #ff5964ff;
+  --white: #ffffffff;
+  --screamin-green: #6bf178ff;
+  --blue-jeans: #35a7ffff; 
+  --ming: #006d77ff;
+--middle-blue-green: #83c5beff;
+--alice-blue: #edf6f9ff;
+--unbleached-silk: #ffddd2ff;
+--dark-salmon: #e29578ff;
+  
+  */
+}
+
+.active {
+  background-color: var(--active-color);
+}
+
+.active__text {
+  color: var(--active-color);
+}
+
+.primary {
+  background-color: var(--primary-color);
+}
+
+.primary__text {
+  color: var(--primary-color);
+}
+
+.secondary {
+  background-color: var(--secondary-color);
+}
+
+.secondary__text {
+  color: var(--secondary-color);
+}
+
+.text {
+  color: var(--text-color);
+}
+
+.background {
+  background-color: var(--background-color);
+}
+
+.border {
+  border: 1px solid var(--border-color);
+}
+
+.error {
+  background-color: var(--error-color);
+}
+
+.error__text {
+  color: var(--error-color);
+}
+
+h2 {
+  line-height: normal;
+}
+
+.heading {
+  font-family: var(--secondary-font-family);
+  font-weight: 400;
+  font-size: 2.5em;
+  line-height: 1.25em;
+  color: var(--primary-color);
+}
+
+.headingSecondary {
+  font-family: var(--secondary-font-family);
+  font-weight: 400;
+  font-size: 2em;
+  color: var(--secondary-color);
+}
+
+.link {
+  font-family: var(--secondary-font-family);
+  font-size: 14px;
+  line-height: 1em;
+  display: inline-block;
+  margin: 0 10px;
+  padding: 4px 5px;
+  text-decoration: none;
+  text-transform: uppercase;
+  color: var(--active-color);
+  border: none;
+  border-bottom: 1px solid var(--active-color);
+  outline: none;
+  background: none;
+}
+
+.fas {
+  margin-right: 0.5em;
+}
+
+.link:hover {
+  opacity: 0.6;
+}
+
+.linkSecondary {
+  color: var(--primary-color);
+  border-color: var(--primary-color);
+}
+
+#disabled {
+  outline: 1px solid red;
+  color: currentColor !important;
+  cursor: not-allowed !important;
+  opacity: 0.5 !important;
+  text-decoration: none !important;
+  pointer-events: none !important;
+}
+.button {
+  font-family: var(--secondary-font-family);
+  font-size: 18px;
+  display: inline-block;
+  margin: 20px auto;
+  padding: 10px 40px;
+  text-decoration: none;
+  text-transform: uppercase;
+  background: var(--active-color);
+  color: var(--light-text-color);
+  border: none;
+  outline: none;
+}

@@ -32,7 +32,8 @@ exports.exchangeCode = async (req, res) => {
             type: 'type1',
         });
         const token = jwt.sign({ id: user.id }, process.env.SECRET);
-        res.json({ token, loggedIn: true });
+        let id = user.id;
+        res.json({ id, token, loggedIn: true });
     } catch (e) {
         error(e);
         res.status(401).json({ loggedIn: false });
@@ -58,28 +59,33 @@ exports.loginUser = async (req, res) => {
     const { email, password } = req.body;
     const [user] = await Users.findAll({ where: { username: email } });
     if (user) {
-
         bcrypt.compare(password, user.password, (err, result) => {
             if (result) {
                 const token = jwt.sign({ id: user.id }, process.env.SECRET);
-                console.log("SIGNING IN api", user.id)
+                console.log("SIGNING IN api", result)
+
                 return res.json({ token, loggedIn: true, user });
             } else {
                 res.json({ loggedIn: false, error: 'Invalid credentials!' });
             }
         });
+
+    } else {
+        res.json({ loggedIn: false, error: 'No user found!' });
     }
-    // } else {
-    //     res.json({ loggedIn: false, error: 'No user found!' });
-    // }
 };
 
 
 
 exports.getAll = async (req, res) => {
     let users = await Users.findAll();
-    console.log('users==> ', users)
-    res.json(users)
+    if (users) {
+        console.log('users==> ', users)
+        res.json(users)
+    }
+    else {
+        res.json({ loggedIn: false, error: 'No user found!' });
+    }
 
 }
 
@@ -107,9 +113,9 @@ exports.updateUser = async (req, res) => {
 
 
 exports.createUser = async (req, res) => {
-    const { username, password } = req.body;
+    const { username, password, name } = req.body;
     try {
-        const newChoice = await Users.createAUser({ username, password, access_token, type })
+        const newChoice = await Users.createAUser({ name, username, password, access_token, type })
         res.json({ id: newChoice });
     } catch (e) {
         const errors = e.errors.map((err) => err.message);
